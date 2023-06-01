@@ -1,0 +1,21 @@
+{
+  "status": {
+    "title": "OK",
+    "statusCode": 200,
+    "detail": "1 of 1 shipment successfully created."
+  },
+  "items": [
+    {
+      "shipmentNo": "0034043333301010000010001",
+      "sstatus": {
+        "title": "OK",
+        "statusCode": 200
+      },
+      "label": {
+        "b64": "JVBERi0xLjQKJeLjz9MKNSAwIG9-0",
+        "fileFormat": "PDF",
+        "printFormat": "910-300-710"
+      }
+    }
+  ]
+}

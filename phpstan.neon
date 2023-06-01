@@ -1,0 +1,5 @@
+includes:
+parameters:
+  treatPhpDocTypesAsCertain: false
+  ignoreErrors:
+    - '#is never written, only read\.$#'

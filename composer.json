@@ -1,0 +1,56 @@
+{
+    "name": "dhl/sdk-api-parcel-de",
+    "description": "DHL Parcel DE Shipping API",
+    "keywords": [
+        "php",
+        "sdk"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "email": "plugins@netresearch.de",
+            "name": "Netresearch DTT GmbH",
+            "role": "Manufacturer",
+            "homepage": "https://www.netresearch.de/"
+        }
+    ],
+    "require": {
+        "php": "^8.1.0",
+        "ext-json": "*",
+        "league/openapi-psr7-validator": "^0.21.0",
+        "netresearch/jsonmapper": "^4.0.0",
+        "php-http/discovery": "^1.18.0",
+        "php-http/httplug": "^2.2.0",
+        "php-http/logger-plugin": "^1.2.1",
+        "psr/http-client": "^1.0.1",
+        "psr/http-client-implementation": "^1.0.0",
+        "psr/http-factory": "^1.0.0",
+        "psr/http-factory-implementation": "^1.0.0",
+        "psr/http-message": "^1.0.0",
+        "psr/http-message-implementation": "^1.0.0",
+        "psr/log": "^1.0.0 || ^2.0.0 || ^3.0.0"
+    },
+    "require-dev": {
+        "fig/log-test": "^1.1.0",
+        "nyholm/psr7": "^1.0.0",
+        "php-http/mock-client": "^1.5.0",
+        "phpunit/phpunit": "^9.0.0",
+        "phpstan/phpstan": "^1.5.0",
+        "squizlabs/php_codesniffer": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dhl\\Sdk\\ParcelDe\\Shipping\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dhl\\Sdk\\ParcelDe\\Shipping\\Test\\": "test/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": false
+        }
+    }
+}

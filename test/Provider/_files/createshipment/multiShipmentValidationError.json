@@ -1,0 +1,45 @@
+{
+  "status": {
+    "title": "Multi-Status",
+    "statusCode": 207,
+    "detail": "0 of 2 shipments successfully created."
+  },
+  "items": [
+    {
+      "sstatus": {
+        "title": "Bad Request",
+        "statusCode": 400
+      },
+      "validationMessages": [
+        {
+          "property": "shipper",
+          "validationMessage": "The house number entered could not be found.",
+          "validationState": "Warning"
+        },
+        {
+          "property": "consignee",
+          "validationMessage": "The city entered does not match the postcode. The shipment is not codeable.",
+          "validationState": "Warning"
+        }
+      ]
+    },
+    {
+      "sstatus": {
+        "title": "Bad Request",
+        "statusCode": 400
+      },
+      "validationMessages": [
+        {
+          "property": "shipper",
+          "validationMessage": "The house number entered could not be found.",
+          "validationState": "Warning"
+        },
+        {
+          "property": "consignee",
+          "validationMessage": "The city entered does not match the postcode. The shipment is not codeable.",
+          "validationState": "Warning"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "status": {
+    "title": "Multi-Status",
+    "statusCode": 207,
+    "detail": "1 of 2 shipments validated OK. Details included."
+  },
+  "items": [
+    {
+      "sequenceNumber": 1,
+      "sstatus": {
+        "title": "OK",
+        "statusCode": 200,
+        "detail": "The Webservice call ran successfully."
+      },
+      "validationMessages": []
+    },
+    {
+      "sequenceNumber": 2,
+      "sstatus": {
+        "title": "Within the shipment there was at least one weak validation error.",
+        "statusCode": 400
+      },
+      "validationMessages": [
+        {
+          "property": "shipper",
+          "validationMessage": "The house number entered could not be found.",
+          "validationState": "Warning"
+        },
+        {
+          "property": "consignee",
+          "validationMessage": "The city entered does not match the postcode. The shipment is not codeable.",
+          "validationState": "Warning"
+        }
+      ]
+    }
+  ]
+}
