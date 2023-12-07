@@ -27,9 +27,7 @@ class ShipmentRequestProvider
         $requestBuilder = new ShipmentOrderRequestBuilder();
 
         return array_map(
-            function (AbstractRequestData $requestData) use ($requestBuilder) {
-                return $requestData->createShipmentOrder($requestBuilder);
-            },
+            fn(AbstractRequestData $requestData): object => $requestData->createShipmentOrder($requestBuilder),
             [new Domestic()]
         );
     }
@@ -44,9 +42,7 @@ class ShipmentRequestProvider
         $requestBuilder = new ShipmentOrderRequestBuilder();
 
         return array_map(
-            function (AbstractRequestData $requestData) use ($requestBuilder) {
-                return $requestData->createShipmentOrder($requestBuilder);
-            },
+            fn(AbstractRequestData $requestData): object => $requestData->createShipmentOrder($requestBuilder),
             [new Domestic(), new DomesticWithReturn()]
         );
     }
@@ -86,7 +82,7 @@ class ShipmentRequestProvider
         $requestBuilder = new ShipmentOrderRequestBuilder();
 
         return array_map(
-            function (AbstractRequestData $requestData) use ($requestBuilder) {
+            function (AbstractRequestData $requestData) use ($requestBuilder): object {
                 // set shipper address with wrong street number, recipient address with wrong zip code
                 $replace = ['shipperStreetNumber' => '4711', 'recipientPostalCode' => '04229'];
                 return $requestData->createShipmentOrder($requestBuilder, $replace);
@@ -128,7 +124,7 @@ class ShipmentRequestProvider
         $requestBuilder = new ShipmentOrderRequestBuilder();
 
         return array_map(
-            function (AbstractRequestData $requestData) use ($requestBuilder) {
+            function (AbstractRequestData $requestData) use ($requestBuilder): object {
                 // set wrong country code format
                 $replace = ['shipperCountryCode' => 'DE', 'recipientCountryCode' => 'DE', 'returnCountryCode' => 'DE'];
                 return $requestData->createShipmentOrder($requestBuilder, $replace);

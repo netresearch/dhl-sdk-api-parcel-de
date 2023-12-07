@@ -17,10 +17,6 @@ class CommunicationExpectation
      * Assert that messages are logged with info severity.
      *
      * - SOAP mock client does not send headers, only check for request body being logged.
-     *
-     * @param string $requestBody
-     * @param string $responseBody
-     * @param TestLogger $logger
      */
     public static function assertCommunicationLogged(
         string $requestBody,
@@ -36,10 +32,6 @@ class CommunicationExpectation
      *
      * - SOAP mock client does not send headers, only check for request body being logged.
      * - REST client never logs warning severity.
-     *
-     * @param string $requestBody
-     * @param string $responseBody
-     * @param TestLogger $logger
      */
     public static function assertWarningsLogged(
         string $requestBody,
@@ -55,10 +47,6 @@ class CommunicationExpectation
      *
      * - SOAP mock client does not send headers, only check for request body being logged.
      * - REST client logs all requests with info severity.
-     *
-     * @param string $requestBody
-     * @param string $responseBody
-     * @param TestLogger $logger
      */
     public static function assertErrorsLogged(
         string $requestBody,

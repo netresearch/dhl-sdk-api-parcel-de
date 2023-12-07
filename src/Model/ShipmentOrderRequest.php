@@ -12,10 +12,7 @@ use Dhl\Sdk\ParcelDe\Shipping\Model\RequestType\Shipment;
 
 class ShipmentOrderRequest implements \JsonSerializable
 {
-    /**
-     * @var string|null
-     */
-    private ?string $profile;
+    private ?string $profile = null;
 
     /**
      * @param \JsonSerializable[]|Shipment[] $shipments

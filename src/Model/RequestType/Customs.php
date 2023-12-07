@@ -12,44 +12,34 @@ class Customs implements \JsonSerializable
 {
     /**
      * Mandatory if export type is 'OTHER'
-     *
-     * @var string|null
      */
-    private ?string $exportDescription;
+    private ?string $exportDescription = null;
 
     /**
      * Postage costs billed in the invoice.
-     *
-     * @var \JsonSerializable|MonetaryValue|null
      */
-    private \JsonSerializable|MonetaryValue|null $postalCharges;
+    private \JsonSerializable|MonetaryValue|null $postalCharges = null;
 
     /**
      * Aka 'Terms of Trade' aka 'Frankatur'.
      *
      * The attribute is exclusively used for the product Europaket (V54EPAK).
      * DDU is deprecated (use DAP instead).
-     *
-     * @var string|null
      */
-    private ?string $shippingConditions;
+    private ?string $shippingConditions = null;
 
     /**
      * Invoice number.
-     *
-     * @var string|null
      */
-    private ?string $invoiceNo;
+    private ?string $invoiceNo = null;
 
     /**
      * Permit number. Very rarely needed. Mostly relevant for higher value goods.
      *
      * An example use case would be an item made from crocodile leather
      * which requires dedicated license / permit identified by that number.
-     *
-     * @var string|null
      */
-    private ?string $permitNo;
+    private ?string $permitNo = null;
 
     /**
      * Attest or certification identified by this number. Very rarely needed.
@@ -57,17 +47,13 @@ class Customs implements \JsonSerializable
      * An example use case would be a medical shipment referring to
      * an attestation that a certain amount of medicine may be imported
      * within e.g. the current quarter of the year.
-     *
-     * @var string|null
      */
-    private ?string $attestationNo;
+    private ?string $attestationNo = null;
 
     /**
      * Location at which the shipment is handed over to DHL.
-     *
-     * @var string|null
      */
-    private ?string $officeOfOrigin;
+    private ?string $officeOfOrigin = null;
 
     /**
      * The customs reference is used by customs authorities to identify
@@ -75,10 +61,8 @@ class Customs implements \JsonSerializable
      * reference, granted authorizations and/or relevant processes in
      * customs clearance an/or taxation can be taken into account.
      * Aka Zoll-Nummer or EORI-Number but dependent on destination.
-     *
-     * @var string|null
      */
-    private ?string $shipperCustomsRef;
+    private ?string $shipperCustomsRef = null;
 
     /**
      * The customs reference is used by customs authorities to identify
@@ -86,17 +70,13 @@ class Customs implements \JsonSerializable
      * reference, granted authorizations and/or relevant processes in
      * customs clearance an/or taxation can be taken into account.
      * Aka Zoll-Nummer or EORI-Number but dependent on destination.
-     *
-     * @var string|null
      */
-    private ?string $consigneeCustomsRef;
+    private ?string $consigneeCustomsRef = null;
 
     /**
      * Flag confirming whether electronic record for export was made.
-     *
-     * @var bool|null
      */
-    private ?bool $hasElectronicExportNotification;
+    private ?bool $hasElectronicExportNotification = null;
 
     /**
      * @param \JsonSerializable[]|CustomsItem[] $items Commodity types in that package

@@ -29,7 +29,7 @@ class CreateShipmentTest extends TestCase
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public function successDataProvider(): array
+    public static function successDataProvider(): array
     {
         return CreateShipmentTestProvider::createShipmentsSuccess();
     }
@@ -38,7 +38,7 @@ class CreateShipmentTest extends TestCase
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public function partialSuccessDataProvider(): array
+    public static function partialSuccessDataProvider(): array
     {
         return CreateShipmentTestProvider::createShipmentsPartialSuccess();
     }
@@ -47,7 +47,7 @@ class CreateShipmentTest extends TestCase
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public function validationWarningDataProvider(): array
+    public static function validationWarningDataProvider(): array
     {
         return CreateShipmentTestProvider::createShipmentsValidationWarning();
     }
@@ -56,7 +56,7 @@ class CreateShipmentTest extends TestCase
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public function validationErrorDataProvider(): array
+    public static function validationErrorDataProvider(): array
     {
         return CreateShipmentTestProvider::createShipmentsValidationError();
     }
@@ -65,7 +65,7 @@ class CreateShipmentTest extends TestCase
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public function schemaErrorDataProvider(): array
+    public static function schemaErrorDataProvider(): array
     {
         return CreateShipmentTestProvider::createShipmentsError();
     }
@@ -73,16 +73,14 @@ class CreateShipmentTest extends TestCase
     /**
      * Test shipment success case (all requests valid, no issues).
      *
-     * @test
-     * @dataProvider successDataProvider
      *
-     * @param AuthenticationStorageInterface $authStorage
      * @param \JsonSerializable[] $shipmentOrders
-     * @param string $responseBody
      *
      * @throws AuthenticationException
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('successDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function createShipmentsSuccess(
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
@@ -129,16 +127,14 @@ class CreateShipmentTest extends TestCase
     /**
      * Test shipment partial success case (some requests valid, some have issues, must encode).
      *
-     * @test
-     * @dataProvider partialSuccessDataProvider
      *
-     * @param AuthenticationStorageInterface $authStorage
      * @param \JsonSerializable[] $shipmentOrders
-     * @param string $responseBody
      *
      * @throws AuthenticationException
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('partialSuccessDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function createShipmentsPartialSuccess(
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
@@ -185,16 +181,14 @@ class CreateShipmentTest extends TestCase
     /**
      * Test shipment success case (all requests have issues with WEAK warning severity).
      *
-     * @test
-     * @dataProvider validationWarningDataProvider
      *
-     * @param AuthenticationStorageInterface $authStorage
      * @param \JsonSerializable[] $shipmentOrders
-     * @param string $responseBody
      *
      * @throws AuthenticationException
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('validationWarningDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function createShipmentsValidationWarning(
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
@@ -241,15 +235,13 @@ class CreateShipmentTest extends TestCase
     /**
      * Test shipment error case (all requests have issues with HARD warning severity).
      *
-     * @test
-     * @dataProvider validationErrorDataProvider
      *
-     * @param AuthenticationStorageInterface $authStorage
      * @param \JsonSerializable[] $shipmentOrders
-     * @param string $responseBody
      *
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('validationErrorDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function createShipmentsValidationError(
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
@@ -296,14 +288,13 @@ class CreateShipmentTest extends TestCase
     /**
      * Test shipment error case (all requests schema invalid) with client-side schema validation.
      *
-     * @test
-     * @dataProvider schemaErrorDataProvider
      *
-     * @param AuthenticationStorageInterface $authStorage
      * @param \JsonSerializable[] $shipmentOrders
      *
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('schemaErrorDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function createShipmentsSchemaError(
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders
@@ -332,15 +323,13 @@ class CreateShipmentTest extends TestCase
     /**
      * Test shipment error case (all requests schema invalid) with server-side schema validation.
      *
-     * @test
-     * @dataProvider schemaErrorDataProvider
      *
-     * @param AuthenticationStorageInterface $authStorage
      * @param \JsonSerializable[] $shipmentOrders
-     * @param string $responseBody
      *
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('schemaErrorDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function createShipmentsFailure(
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,

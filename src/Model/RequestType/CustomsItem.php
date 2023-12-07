@@ -12,20 +12,15 @@ class CustomsItem implements \JsonSerializable
 {
     /**
      * A valid country code consisting of three characters according to ISO 3166-1 alpha-3.
-     *
-     * @var string|null
      */
-    private ?string $countryOfOrigin;
+    private ?string $countryOfOrigin = null;
 
     /**
      * Harmonized System Code aka Customs tariff number.
-     *
-     * @var string|null
      */
-    private ?string $hsCode;
+    private ?string $hsCode = null;
 
     /**
-     * @param string $itemDescription
      * @param int $packagedQuantity Item count of the unit/position
      * @param \JsonSerializable|MonetaryValue $itemValue Customs value amount of the unit/position
      * @param \JsonSerializable|Weight $itemWeight Weight of item or shipment

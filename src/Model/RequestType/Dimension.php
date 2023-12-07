@@ -12,9 +12,6 @@ class Dimension implements \JsonSerializable
 {
     /**
      * @param string $uom Unit of metric, applies to all dimensions contained. Allowed values: "cm", "mm"
-     * @param int $height
-     * @param int $length
-     * @param int $width
      */
     public function __construct(
         private readonly string $uom,

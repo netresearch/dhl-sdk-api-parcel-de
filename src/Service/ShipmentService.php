@@ -44,7 +44,6 @@ class ShipmentService implements ShipmentServiceInterface
      * Assert that all shipment orders are serializable.
      *
      * @param \stdClass[] $shipmentOrders
-     * @return ShipmentOrderRequest
      *
      * @throws \Exception
      */
@@ -62,10 +61,8 @@ class ShipmentService implements ShipmentServiceInterface
 
     /**
      * @param string[] $requestParams
-     * @param OrderConfigurationInterface|null $configuration
-     * @return string
      */
-    private function getQuery(array $requestParams, OrderConfigurationInterface $configuration): string
+    private function getQuery(array $requestParams, ?OrderConfigurationInterface $configuration): string
     {
         if ($configuration->mustEncode()) {
             $requestParams['mustEncode'] = 'true';
@@ -98,7 +95,7 @@ class ShipmentService implements ShipmentServiceInterface
             $response = $this->client->sendRequest($httpRequest);
             $responseJson = (string) $response->getBody();
 
-            $responseData = \json_decode($responseJson, true);
+            $responseData = \json_decode($responseJson, true, 512, JSON_THROW_ON_ERROR);
 
             return $responseData['backend']['version'] ?? '';
         } catch (\Throwable $exception) {
@@ -146,7 +143,7 @@ class ShipmentService implements ShipmentServiceInterface
 
         $query = $this->getQuery([], $configuration);
         $uri = sprintf('%s/%s', $this->baseUrl, self::OPERATION_ORDERS);
-        if (!empty($query)) {
+        if ($query !== '') {
             $uri = "$uri?$query";
         }
 
@@ -178,14 +175,12 @@ class ShipmentService implements ShipmentServiceInterface
         string $profile = OrderConfigurationInterface::DEFAULT_PROFILE
     ): array {
         $shipmentNumbers = array_filter($shipmentNumbers);
-        if (empty($shipmentNumbers)) {
+        if ($shipmentNumbers === []) {
             return [];
         }
 
         $requestParams = array_map(
-            function (string $shipmentNumber) {
-                return "shipment=$shipmentNumber";
-            },
+            fn(string $shipmentNumber): string => "shipment=$shipmentNumber",
             $shipmentNumbers
         );
         array_unshift($requestParams, "profile=$profile");

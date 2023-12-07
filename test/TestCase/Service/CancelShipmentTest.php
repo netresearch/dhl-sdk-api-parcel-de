@@ -26,7 +26,7 @@ class CancelShipmentTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function successDataProvider(): array
+    public static function successDataProvider(): array
     {
         return CancelShipmentTestProvider::cancelShipmentsSuccess();
     }
@@ -34,7 +34,7 @@ class CancelShipmentTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function partialSuccessDataProvider(): array
+    public static function partialSuccessDataProvider(): array
     {
         return CancelShipmentTestProvider::cancelShipmentsPartialSuccess();
     }
@@ -42,7 +42,7 @@ class CancelShipmentTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function errorDataProvider(): array
+    public static function errorDataProvider(): array
     {
         return CancelShipmentTestProvider::cancelShipmentsError();
     }
@@ -50,16 +50,14 @@ class CancelShipmentTest extends TestCase
     /**
      * Test shipment cancellation success case (all shipments cancelled, no issues).
      *
-     * @test
-     * @dataProvider successDataProvider
      *
-     * @param AuthenticationStorageInterface $authStorage
      * @param string[] $shipmentNumbers
-     * @param string $responseBody
      *
      * @throws AuthenticationException
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('successDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function cancelShipmentsSuccess(
         AuthenticationStorageInterface $authStorage,
         array $shipmentNumbers,
@@ -103,16 +101,14 @@ class CancelShipmentTest extends TestCase
     /**
      * Test shipment cancellation partial success case (some shipments cancelled).
      *
-     * @test
-     * @dataProvider partialSuccessDataProvider
      *
-     * @param AuthenticationStorageInterface $authStorage
      * @param string[] $shipmentNumbers
-     * @param string $responseBody
      *
      * @throws AuthenticationException
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('partialSuccessDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function cancelShipmentsPartialSuccess(
         AuthenticationStorageInterface $authStorage,
         array $shipmentNumbers,
@@ -155,16 +151,14 @@ class CancelShipmentTest extends TestCase
     /**
      * Test shipment cancellation failure case.
      *
-     * @test
-     * @dataProvider errorDataProvider
      *
-     * @param AuthenticationStorageInterface $authStorage
      * @param string[] $shipmentNumbers
-     * @param string $responseBody
      *
      * @throws AuthenticationException
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('errorDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function cancelShipmentsError(
         AuthenticationStorageInterface $authStorage,
         array $shipmentNumbers,

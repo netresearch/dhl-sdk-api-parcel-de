@@ -19,25 +19,16 @@ class ValidationResult implements ValidationResultInterface
     ) {
     }
 
-    /**
-     * @return string
-     */
     public function getSequenceNumber(): string
     {
         return $this->sequenceNumber;
     }
 
-    /**
-     * @return bool
-     */
     public function isValid(): bool
     {
         return $this->valid;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         return $this->message;

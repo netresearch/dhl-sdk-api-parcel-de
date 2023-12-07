@@ -27,17 +27,16 @@ class JsonSerializer
     }
 
     /**
-     * @param \JsonSerializable $request
-     * @return string
+     * @throws \JsonException
      */
     public function encode(\JsonSerializable $request): string
     {
         // remove empty entries from serialized data (after all objects were converted to array)
-        $payload = (string) \json_encode($request);
-        $payload = (array) \json_decode($payload, true);
+        $payload = (string) \json_encode($request, JSON_THROW_ON_ERROR);
+        $payload = (array) \json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
         $payload = $this->filterRecursive($payload);
 
-        return (string) \json_encode($payload);
+        return (string) \json_encode($payload, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -49,9 +48,7 @@ class JsonSerializer
     private function filterRecursive(array $element): array
     {
         // Filter null and empty strings
-        $filterFunction = static function ($entry): bool {
-            return ($entry !== null) && ($entry !== '') && ($entry !== []);
-        };
+        $filterFunction = static fn($entry): bool => ($entry !== null) && ($entry !== '') && ($entry !== []);
 
         foreach ($element as &$value) {
             if (\is_array($value)) {
@@ -63,9 +60,8 @@ class JsonSerializer
     }
 
     /**
-     * @param string $jsonResponse
-     * @return ShipmentResponse
      * @throws \JsonMapper_Exception
+     * @throws \JsonException
      */
     public function decode(string $jsonResponse): ShipmentResponse
     {
@@ -73,7 +69,7 @@ class JsonSerializer
         $jsonMapper->bIgnoreVisibility = true;
         $jsonMapper->classMap = $this->classMap;
 
-        $response = \json_decode($jsonResponse, false);
+        $response = \json_decode($jsonResponse, false, 512, JSON_THROW_ON_ERROR);
 
         /** @var ShipmentResponse $mappedResponse */
         $mappedResponse = $jsonMapper->map($response, new ShipmentResponse());

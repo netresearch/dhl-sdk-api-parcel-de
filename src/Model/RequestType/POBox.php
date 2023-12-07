@@ -12,29 +12,22 @@ class POBox implements ConsigneeInterface, \JsonSerializable
 {
     /**
      * An optional, additional line of name information.
-     *
-     * @var string|null
      */
-    private ?string $name2;
+    private ?string $name2 = null;
 
     /**
      * An optional, additional line of name information.
-     *
-     * @var string|null
      */
-    private ?string $name3;
+    private ?string $name3 = null;
 
     /**
      * Email address of the consignee.
-     *
-     * @var string|null
      */
-    private ?string $email;
+    private ?string $email = null;
 
     /**
      * @param string $name1 Line 1 of name information
      * @param int $poBoxID Number of P.O. Box (Postfach)
-     * @param string $postalCode
      * @param string $city City where the facility is located
      * @param string $country A valid country code consisting of three characters according to ISO 3166-1 alpha-3
      */

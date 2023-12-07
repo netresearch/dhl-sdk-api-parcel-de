@@ -37,7 +37,7 @@ class RequestBuilderTest extends TestCase
      * @return mixed[]
      * @throws \Exception
      */
-    public function simpleDataProvider(): array
+    public static function simpleDataProvider(): array
     {
         $response = __DIR__ . '/../../Provider/_files/createshipment/singleShipmentSuccess.json';
         $authStorage = AuthenticationStorageProvider::authSuccess();
@@ -54,7 +54,7 @@ class RequestBuilderTest extends TestCase
      * @return mixed[]
      * @throws \Exception
      */
-    public function complexDataProvider(): array
+    public static function complexDataProvider(): array
     {
         $response = __DIR__ . '/../../Provider/_files/createshipment/singleShipmentSuccess.json';
         $authStorage = AuthenticationStorageProvider::authSuccess();
@@ -75,14 +75,11 @@ class RequestBuilderTest extends TestCase
     }
 
     /**
-     * @test
-     * @dataProvider simpleDataProvider
-     *
-     * @param AuthenticationStorageInterface $authStorage
      * @param AbstractRequestData[] $requestData
-     * @param string $responseBody
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('simpleDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function createMinimalShipmentRequest(
         AuthenticationStorageInterface $authStorage,
         array $requestData,
@@ -127,14 +124,11 @@ class RequestBuilderTest extends TestCase
     }
 
     /**
-     * @test
-     * @dataProvider complexDataProvider
-     *
-     * @param AuthenticationStorageInterface $authStorage
      * @param AbstractRequestData[] $requestData
-     * @param string $responseBody
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('complexDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function createMultiShipmentRequest(
         AuthenticationStorageInterface $authStorage,
         array $requestData,
@@ -202,10 +196,10 @@ class RequestBuilderTest extends TestCase
     /**
      * Assert that request builder throws exception if shipper data is missing.
      *
-     * @test
      * @throws RequestValidatorException
      */
-    public function validationExceptionOnMissingShipper()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function validationExceptionOnMissingShipper(): void
     {
         $this->expectException(RequestValidatorException::class);
         $this->expectExceptionMessage(ShipmentOrderRequestBuilderInterface::MSG_MISSING_SHIPPER);
@@ -221,10 +215,10 @@ class RequestBuilderTest extends TestCase
     /**
      * Assert that request builder throws exception if recipient data is missing.
      *
-     * @test
      * @throws RequestValidatorException
      */
-    public function validationExceptionOnMissingConsignee()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function validationExceptionOnMissingConsignee(): void
     {
         $this->expectException(RequestValidatorException::class);
         $this->expectExceptionMessage(ShipmentOrderRequestBuilderInterface::MSG_MISSING_RECIPIENT);
@@ -240,10 +234,10 @@ class RequestBuilderTest extends TestCase
     /**
      * Assert that request builder throws exception if contact data is missing for Post Office delivery.
      *
-     * @test
      * @throws RequestValidatorException
      */
-    public function validationExceptionOnMissingConsigneeContact()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function validationExceptionOnMissingConsigneeContact(): void
     {
         $this->expectException(RequestValidatorException::class);
         $this->expectExceptionMessage(ShipmentOrderRequestBuilderInterface::MSG_MISSING_CONTACT);

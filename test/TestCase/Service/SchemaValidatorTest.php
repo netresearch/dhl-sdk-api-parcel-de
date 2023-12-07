@@ -28,7 +28,7 @@ class SchemaValidatorTest extends TestCase
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public function successDataProvider(): array
+    public static function successDataProvider(): array
     {
         return ValidateShipmentTestProvider::validateShipmentsSuccess();
     }
@@ -37,7 +37,7 @@ class SchemaValidatorTest extends TestCase
      * @return mixed[]
      * @throws RequestValidatorException
      */
-    public function validationErrorDataProvider(): array
+    public static function validationErrorDataProvider(): array
     {
         return ValidateShipmentTestProvider::validateShipmentsError();
     }
@@ -45,22 +45,20 @@ class SchemaValidatorTest extends TestCase
     /**
      * Test shipment order requests with valid request message.
      *
-     * @test
-     * @dataProvider successDataProvider
      *
-     * @param AuthenticationStorageInterface $authStorage
      * @param \JsonSerializable[] $shipmentOrders
-     * @param string $responseBody
      *
      * @throws AuthenticationException
      * @throws DetailedServiceException
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('successDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function passValidation(
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders,
         string $responseBody
-    ) {
+    ): void {
         $statusCode = count($shipmentOrders) > 1 ? 207 : 200;
         $reasonPhrase = count($shipmentOrders) > 1 ? 'Multi-status' : 'OK';
 
@@ -89,20 +87,18 @@ class SchemaValidatorTest extends TestCase
     /**
      * Test shipment order requests with invalid request message.
      *
-     * @test
-     * @dataProvider validationErrorDataProvider
      *
-     * @param AuthenticationStorageInterface $authStorage
      * @param \JsonSerializable[] $shipmentOrders
-     *
      * @throws AuthenticationException
      * @throws DetailedServiceException
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('validationErrorDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function failValidation(
         AuthenticationStorageInterface $authStorage,
         array $shipmentOrders
-    ) {
+    ): void {
         $this->expectException(DetailedServiceException::class);
 
         $httpClient = new Client();

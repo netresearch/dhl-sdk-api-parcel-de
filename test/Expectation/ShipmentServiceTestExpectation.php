@@ -22,7 +22,7 @@ class ShipmentServiceTestExpectation
     {
         return array_reduce(
             $result,
-            function (array $carry, ValidationResultInterface $validationResult) {
+            function (array $carry, ValidationResultInterface $validationResult): array {
                 if ($validationResult->isValid()) {
                     $carry['valid'][] = (int) $validationResult->getSequenceNumber();
                 } else {
@@ -35,14 +35,12 @@ class ShipmentServiceTestExpectation
     }
 
     /**
-     * @param string $requestJson
-     * @param string $responseJson
      * @param ValidationResultInterface[] $result
      */
     public static function assertValidationResponse(string $requestJson, string $responseJson, array $result): void
     {
-        $request = \json_decode($requestJson, true);
-        $response = \json_decode($responseJson, true);
+        $request = \json_decode($requestJson, true, 512, JSON_THROW_ON_ERROR);
+        $response = \json_decode($responseJson, true, 512, JSON_THROW_ON_ERROR);
 
         $actual = self::sortValidationResult($result);
 
@@ -70,23 +68,15 @@ class ShipmentServiceTestExpectation
         }
     }
 
-    /**
-     * @param string $queryParams
-     * @param string $responseJson
-     * @param array $result
-     * @return void
-     */
     public static function assertAllShipmentsCancelled(string $queryParams, string $responseJson, array $result): void
     {
-        $response = \json_decode($responseJson, true);
+        $response = \json_decode($responseJson, true, 512, JSON_THROW_ON_ERROR);
 
         preg_match_all('/shipment=([\d]+)/', $queryParams, $shipmentNumbers);
         $requested = $shipmentNumbers[1];
 
         $succeeded = array_map(
-            function (array $responseItem) {
-                return $responseItem['shipmentNo'];
-            },
+            fn(array $responseItem) => $responseItem['shipmentNo'],
             $response['items']
         );
 
@@ -96,22 +86,16 @@ class ShipmentServiceTestExpectation
         Assert::assertSame($requested, $result, 'Shipment numbers of the response do not match.');
     }
 
-    /**
-     * @param string $queryParams
-     * @param string $responseJson
-     * @param array $result
-     * @return void
-     */
     public static function assertSomeShipmentsCancelled(string $queryParams, string $responseJson, array $result): void
     {
-        $response = \json_decode($responseJson, true);
+        $response = \json_decode($responseJson, true, 512, JSON_THROW_ON_ERROR);
 
         preg_match_all('/shipment=([\d]+)/', $queryParams, $shipmentNumbers);
         $requested = $shipmentNumbers[1];
 
         $returned = array_reduce(
             $response['items'],
-            function (array $carry, array $responseItem) {
+            function (array $carry, array $responseItem): array {
                 if ($responseItem['sstatus']['statusCode'] === 200) {
                     $carry['succeeded'][] = $responseItem['shipmentNo'];
                 } else {
@@ -147,8 +131,8 @@ class ShipmentServiceTestExpectation
      */
     public static function assertShipmentsBooked(string $requestJson, string $responseJson, array $result): void
     {
-        $request = \json_decode($requestJson, true);
-        $response = \json_decode($responseJson, true);
+        $request = \json_decode($requestJson, true, 512, JSON_THROW_ON_ERROR);
+        $response = \json_decode($responseJson, true, 512, JSON_THROW_ON_ERROR);
 
         // assert that SDK request was serialized to expected number of JSON shipment objects
         Assert::assertCount(
@@ -160,7 +144,7 @@ class ShipmentServiceTestExpectation
         // assert that SDK response contains all successfully created shipments
         $labels = array_reduce(
             $result,
-            function (array $carry, ShipmentInterface $shipment) {
+            function (array $carry, ShipmentInterface $shipment): array {
                 $carry[$shipment->getSequenceNumber()] = $shipment->getLabels();
                 return $carry;
             },

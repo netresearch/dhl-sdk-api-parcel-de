@@ -10,7 +10,7 @@ namespace Dhl\Sdk\ParcelDe\Shipping\Model;
 
 class ShipmentResponse
 {
-    private ?ResponseType\Status $status;
+    private ?ResponseType\Status $status = null;
 
     /**
      * @var \Dhl\Sdk\ParcelDe\Shipping\Model\ResponseType\Item[]
@@ -27,7 +27,7 @@ class ShipmentResponse
      */
     public function getItems(): array
     {
-        if (empty($this->items)) {
+        if ($this->items === []) {
             return [];
         }
 

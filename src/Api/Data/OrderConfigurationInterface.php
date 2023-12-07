@@ -38,8 +38,6 @@ interface OrderConfigurationInterface
      * Legacy name printOnlyIfCodable. If true, labels will only be created
      * if neither hard nor soft validation errors exist for this shipment.
      * Else, labels will be created even if soft validation errors exist.
-     *
-     * @return bool|null
      */
     public function mustEncode(): ?bool;
 
@@ -50,15 +48,11 @@ interface OrderConfigurationInterface
      * single PDF document with possibly multiple pages. Else, those two
      * labels come as separate documents. The option does not affect customs
      * documents and COD labels.
-     *
-     * @return bool|null
      */
     public function isCombinedPrinting(): ?bool;
 
     /**
      * Define the printable document format to be used for label and manifest documents.
-     *
-     * @return string|null
      */
     public function getDocFormat(): ?string;
 
@@ -67,8 +61,6 @@ interface OrderConfigurationInterface
      *
      * The different option vary from standard paper sizes DIN A4 and DIN A5
      * to specific label print formats.
-     *
-     * @return string|null
      */
     public function getPrintFormat(): ?string;
 
@@ -78,15 +70,11 @@ interface OrderConfigurationInterface
      * This parameter is only usable, if you do not use combined printing.
      * The different option vary from standard paper sizes DIN A4 and DIN A5
      * to specific label print formats.
-     *
-     * @return string|null
      */
     public function getPrintFormatReturn(): ?string;
 
     /**
      * Limit the available billing numbers to given profile.
-     *
-     * @return string
      */
     public function getProfile(): string;
 }

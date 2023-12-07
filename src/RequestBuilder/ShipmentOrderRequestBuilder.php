@@ -28,7 +28,6 @@ use Dhl\Sdk\ParcelDe\Shipping\Model\RequestType\Services;
 use Dhl\Sdk\ParcelDe\Shipping\Model\RequestType\Shipment;
 use Dhl\Sdk\ParcelDe\Shipping\Model\RequestType\ShipperAddress;
 use Dhl\Sdk\ParcelDe\Shipping\Model\RequestType\ShipperAddressRef;
-use Dhl\Sdk\ParcelDe\Shipping\Model\RequestType\ShippingConfirmation;
 use Dhl\Sdk\ParcelDe\Shipping\Model\RequestType\Weight;
 
 class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterface
@@ -38,7 +37,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
      *
      * @var mixed[]
      */
-    private $data = [];
+    private array $data = [];
 
     public function setSequenceNumber(string $sequenceNumber): ShipmentOrderRequestBuilderInterface
     {
@@ -173,13 +172,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         $this->data['recipient']['address']['state'] = $state;
         $this->data['recipient']['address']['dispatchingInformation'] = $dispatchingInformation;
         $this->data['recipient']['address']['addressAddition'] = $addressAddition;
-
-        return $this;
-    }
-
-    public function setRecipientNotification(string $email): ShipmentOrderRequestBuilderInterface
-    {
-        $this->data['recipient']['notification'] = $email;
 
         return $this;
     }
@@ -344,13 +336,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     public function setIndividualSenderRequirement(string $handlingDetails): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['individualSenderRequirement'] = $handlingDetails;
-
-        return $this;
-    }
-
-    public function setPackagingReturn(): ShipmentOrderRequestBuilderInterface
-    {
-        $this->data['services']['packagingReturn'] = true;
 
         return $this;
     }
@@ -627,7 +612,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         if (
             isset($this->data['services'])
             || isset($this->data['return']['address'], $this->data['shipper']['returnBillingNumber'])
-            || isset($this->data['recipient']['notification'])
         ) {
             $services = new Services();
             $services->setPreferredNeighbour($this->data['services']['preferredNeighbour'] ?? null);
@@ -637,23 +621,17 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             $services->setNamedPersonOnly($this->data['services']['namedPersonOnly'] ?? null);
             $services->setNoNeighbourDelivery($this->data['services']['noNeighbourDelivery'] ?? null);
             $services->setIndividualSenderRequirement($this->data['services']['individualSenderRequirement'] ?? null);
-            $services->setPackagingReturn($this->data['services']['packagingReturn'] ?? null);
             $services->setSignedForByRecipient($this->data['services']['signedForByRecipient'] ?? null);
             $services->setParcelOutletRouting($this->data['services']['parcelOutletRouting']['details'] ?? null);
             $services->setPremium($this->data['services']['premium'] ?? null);
             $services->setBulkyGoods($this->data['services']['bulkyGoods'] ?? null);
             $services->setPostalDeliveryDutyPaid($this->data['services']['pddp'] ?? null);
 
-            switch ($this->data['services']['endorsement'] ?? false) {
-                case ShipmentOrderRequestBuilderInterface::ENDORSEMENT_TYPE_IMMEDIATE:
-                    $services->setEndorsement('RETURN');
-                    break;
-                case ShipmentOrderRequestBuilderInterface::ENDORSEMENT_TYPE_ABANDONMENT:
-                    $services->setEndorsement('ABANDON');
-                    break;
-                default:
-                    $services->setEndorsement(null);
-            }
+            match ($this->data['services']['endorsement'] ?? false) {
+                ShipmentOrderRequestBuilderInterface::ENDORSEMENT_TYPE_IMMEDIATE => $services->setEndorsement('RETURN'),
+                ShipmentOrderRequestBuilderInterface::ENDORSEMENT_TYPE_ABANDONMENT => $services->setEndorsement('ABANDON'),
+                default => $services->setEndorsement(null),
+            };
 
             switch ($this->data['services']['deliveryType'] ?? false) {
                 case ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_ECONOMY:
@@ -665,11 +643,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
                 case ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_CDP:
                     $services->setClosestDropPoint(true);
                     break;
-            }
-
-            if (isset($this->data['recipient']['notification'])) {
-                $shippingConfirmation = new ShippingConfirmation($this->data['recipient']['notification']);
-                $services->setShippingConfirmation($shippingConfirmation);
             }
 
             if (isset($this->data['services']['cod']['codAmount'])) {

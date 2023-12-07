@@ -10,9 +10,9 @@ namespace Dhl\Sdk\ParcelDe\Shipping\Model\RequestType;
 
 class BankAccount implements \JsonSerializable
 {
-    private ?string $bankName;
+    private ?string $bankName = null;
 
-    private ?string $bic;
+    private ?string $bic = null;
 
     public function __construct(private readonly string $accountHolder, private readonly string $iban)
     {

@@ -80,8 +80,6 @@ class DomesticWithServices extends AbstractRequestData
             'recipientAddressAddition1' => 'add something ship',
             'recipientAddressAddition2' => 'add more ship',
 
-            'recipientNotification' => 'notify@example.org',
-
             'packageWeight' => 1.12,
             'packageValue' => 24.99,
             'codAmount' => 29.99,
@@ -203,7 +201,6 @@ class DomesticWithServices extends AbstractRequestData
             ]
         );
 
-        $builder->setRecipientNotification($data['recipientNotification']);
         $builder->setInsuredValue($data['packageValue']);
         $builder->setCodAmount($data['codAmount']);
         $builder->setPreferredDay($data['preferredDay']);

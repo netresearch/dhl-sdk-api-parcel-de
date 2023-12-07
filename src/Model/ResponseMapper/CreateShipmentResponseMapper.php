@@ -18,7 +18,6 @@ class CreateShipmentResponseMapper
     /**
      * Map the webservice data structure to response objects suitable for third-party consumption.
      *
-     * @param ShipmentResponse $response
      * @return ShipmentInterface[]
      */
     public function map(ShipmentResponse $response): array

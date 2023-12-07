@@ -23,11 +23,6 @@ interface ServiceFactoryInterface
     /**
      * Create the service instance able to perform shipment create and delete operations.
      *
-     * @param AuthenticationStorageInterface $authStorage
-     * @param LoggerInterface $logger
-     * @param bool $sandboxMode
-     *
-     * @return ShipmentServiceInterface
      * @throws ServiceException
      */
     public function createShipmentService(

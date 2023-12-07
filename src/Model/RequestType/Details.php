@@ -16,10 +16,8 @@ class Details implements \JsonSerializable
      * If you provide the dimension information, all attributes need to be provided.
      * You cannot provide just the height, for example. If you provide length,
      * width, and height in millimeters, they will be rounded to full cm.
-     *
-     * @var \JsonSerializable|Dimension|null
      */
-    private \JsonSerializable|Dimension|null $dim;
+    private \JsonSerializable|Dimension|null $dim = null;
 
     public function __construct(private readonly \JsonSerializable|Weight $weight)
     {

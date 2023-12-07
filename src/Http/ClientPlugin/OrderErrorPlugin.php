@@ -30,10 +30,6 @@ final class OrderErrorPlugin implements Plugin
 
     /**
      * Returns TRUE if the response contains a detailed error response.
-     *
-     * @param ResponseInterface $response
-     *
-     * @return bool
      */
     private function isDetailedErrorResponse(ResponseInterface $response): bool
     {
@@ -51,7 +47,6 @@ final class OrderErrorPlugin implements Plugin
      * @param array{
      *            array{'property'?: string, 'validationState': string, 'validationMessage': string}
      *        }|array{} $itemMessages
-     * @return string
      */
     private function createValidationErrorMessage(array $itemStatus, array $itemMessages): string
     {
@@ -63,26 +58,25 @@ final class OrderErrorPlugin implements Plugin
 
         $message .= $itemStatus['detail'] ?? $itemStatus['title'];
 
-        if (empty($itemMessages)) {
+        if ($itemMessages === []) {
             return $message;
         }
 
         $itemMessages = array_map(
-            function (array $itemMessage) {
+            function (array $itemMessage): string {
                 if (!isset($itemMessage['property'])) {
                     return sprintf(
                         '%s: %s',
                         $itemMessage['validationState'],
                         $itemMessage['validationMessage']
                     );
-                } else {
-                    return sprintf(
-                        '%s (%s): %s',
-                        $itemMessage['validationState'],
-                        $itemMessage['property'],
-                        $itemMessage['validationMessage']
-                    );
                 }
+                return sprintf(
+                    '%s (%s): %s',
+                    $itemMessage['validationState'],
+                    $itemMessage['property'],
+                    $itemMessage['validationMessage']
+                );
             },
             $itemMessages
         );
@@ -109,8 +103,6 @@ final class OrderErrorPlugin implements Plugin
      *                 }
      *             }
      * } $responseData
-     * @param string $defaultMessage
-     * @return string
      */
     private function createErrorMessage(array $responseData, string $defaultMessage): string
     {
@@ -119,7 +111,7 @@ final class OrderErrorPlugin implements Plugin
         }
 
         $messages = array_map(
-            function (array $responseItem) {
+            function (array $responseItem): string {
                 if (isset($responseItem['propertyPath'], $responseItem['message'])) {
                     $message = $this->createTechnicalErrorMessage(
                         $responseItem['propertyPath'],
@@ -154,11 +146,17 @@ final class OrderErrorPlugin implements Plugin
         return implode("\n", $messages);
     }
 
+    /**
+     * @param callable(RequestInterface): Promise<RequestInterface> $next
+     * @param callable(RequestInterface): Promise<RequestInterface> $first
+     *
+     * @return Promise<ResponseInterface>
+     */
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
-        /** @var Promise $promise */
+        /** @var Promise<ResponseInterface> $promise */
         $promise = $next($request);
-        $fnFulfilled = function (ResponseInterface $response) use ($request) {
+        $fnFulfilled = function (ResponseInterface $response) use ($request): ResponseInterface {
             $statusCode = $response->getStatusCode();
 
             if (!$this->isDetailedErrorResponse($response)) {
@@ -172,7 +170,7 @@ final class OrderErrorPlugin implements Plugin
                 }
             } else {
                 $responseJson = (string)$response->getBody();
-                $responseData = \json_decode($responseJson, true) ?: [];
+                $responseData = \json_decode($responseJson, true, 512, JSON_THROW_ON_ERROR) ?: [];
                 $errorMessage = $this->createErrorMessage($responseData, $response->getReasonPhrase());
 
                 if ($statusCode === 401 || $statusCode === 403) {
@@ -186,17 +184,16 @@ final class OrderErrorPlugin implements Plugin
                 if ($statusCode === 207) {
                     $itemStatus = array_unique(
                         array_map(
-                            function (array $responseItem) {
-                                return $responseItem['sstatus']['statusCode'];
-                            },
+                            fn(array $responseItem) => $responseItem['sstatus']['statusCode'],
                             $responseData['items']
                         )
                     );
-
                     if (!in_array(200, $itemStatus)) {
                         // all failed
                         throw new DetailedErrorHttpException($errorMessage, $request, $response);
-                    } elseif (count($itemStatus) > 1) {
+                    }
+
+                    if (count($itemStatus) > 1) {
                         // some failed
                         $this->logger->error($errorMessage);
                     }

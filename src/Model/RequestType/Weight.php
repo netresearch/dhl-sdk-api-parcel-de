@@ -10,7 +10,6 @@ namespace Dhl\Sdk\ParcelDe\Shipping\Model\RequestType;
 
 class Weight implements \JsonSerializable
 {
-
     /**
      * @param string $uom Metric unit for weight. Allowed values: "g", "kg".
      * @param float $value Numeric value.

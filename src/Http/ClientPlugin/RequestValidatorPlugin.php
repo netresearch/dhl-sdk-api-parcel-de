@@ -20,7 +20,6 @@ use Psr\Log\LoggerInterface;
 final class RequestValidatorPlugin implements Plugin
 {
     /**
-     * @param LoggerInterface $logger
      * @param bool $strict Stop on validation failure
      */
     public function __construct(private readonly LoggerInterface $logger, private readonly bool $strict)
@@ -30,14 +29,13 @@ final class RequestValidatorPlugin implements Plugin
     /**
      * Convert validation failures into SchemaErrorException with proper exception message.
      *
-     * @param RequestInterface $request
      * @throws SchemaErrorException
-     * @return void
+     * @throws \JsonException
      */
     private function validateRequest(RequestInterface $request): void
     {
         $validator = (new ValidatorBuilder())
-            ->fromYamlFile(__DIR__ . '/DHL_Parcel_DE_Shipping-v2.1.6.yaml')
+            ->fromYamlFile(__DIR__ . '/DHL_Parcel_DE_Shipping-v2.1.7.yaml')
             ->getRequestValidator();
 
         try {
@@ -52,13 +50,13 @@ final class RequestValidatorPlugin implements Plugin
                 $chain = $previous->dataBreadCrumb()->buildChain();
 
                 if (is_array($data)) {
-                    $data = \json_encode($data);
+                    $data = \json_encode($data, JSON_THROW_ON_ERROR);
                     array_pop($chain);
                 }
 
                 $path = array_reduce(
                     $chain,
-                    function (string $carry, $link) {
+                    function (string $carry, $link): string {
                         if (is_int($link)) {
                             $carry .= "[$link]";
                         } else {
@@ -84,7 +82,11 @@ final class RequestValidatorPlugin implements Plugin
     }
 
     /**
+     * @param callable(RequestInterface): Promise<RequestInterface> $next
+     * @param callable(RequestInterface): Promise<RequestInterface> $first
+     * @return Promise<RequestInterface>
      * @throws SchemaErrorException
+     * @throws \JsonException
      */
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {

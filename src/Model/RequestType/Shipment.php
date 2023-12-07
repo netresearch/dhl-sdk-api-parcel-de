@@ -15,33 +15,25 @@ class Shipment implements \JsonSerializable
      *
      * It appears on shipment labels. To use the reference number for tracking purposes,
      * it should be at least 8 characters long and unique.
-     *
-     * @var string|null
      */
-    private ?string $refNo;
+    private ?string $refNo = null;
 
     /**
      * Text field that appears on the shipment label. It cannot be used to search for the shipment.
-     *
-     * @var string|null
      */
-    private ?string $costCenter;
+    private ?string $costCenter = null;
 
     /**
      * Is only to be indicated by DHL partners.
-     *
-     * @var string|null
      */
-    private ?string $creationSoftware;
+    private ?string $creationSoftware = null;
 
     /**
      * Value added services. Please note that services are specific to products
      * and geographies and/or may require individual setup and billing numbers.
      * Please test and contact your account representative in case of questions.
-     *
-     * @var \JsonSerializable|Services|null
      */
-    private \JsonSerializable|Services|null $services;
+    private \JsonSerializable|Services|null $services = null;
 
     /**
      * Information necessary for customs about the exported goods.
@@ -53,10 +45,8 @@ class Shipment implements \JsonSerializable
      * For DHL Parcel International (V53WPAK) CN23 will be returned as a
      * separate document, while for Warenpost International the customs information
      * will be printed onto the shipment label (CN22).
-     *
-     * @var \JsonSerializable|Customs|null
      */
-    private \JsonSerializable|Customs|null $customs;
+    private \JsonSerializable|Customs|null $customs = null;
 
     /**
      * @param string $product Determines the DHL Paket product to be used.
@@ -76,7 +66,7 @@ class Shipment implements \JsonSerializable
      * @param ShipperInterface $shipper Shipper information, including contact information, address.
      *                                  Alternatively, a predefined shipper reference can be used.
      * @param ConsigneeInterface $consignee Consignee address information.
-*                                           Either a doorstep address (contact address) including contact information
+     *                                      Either a doorstep address (contact address) including contact information
      *                                      or a droppoint address. One of packstation (parcel locker), post office
      *                                      (postfiliale/retail shop), or PO Box.
      * @param Details $details Details for the shipment, such as dimensions, content.

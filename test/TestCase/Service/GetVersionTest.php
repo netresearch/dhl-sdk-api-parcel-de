@@ -22,7 +22,7 @@ class GetVersionTest extends TestCase
     /**
      * @return string[][]
      */
-    public function successDataProvider(): array
+    public static function successDataProvider(): array
     {
         return GetVersionTestProvider::getVersionSuccess();
     }
@@ -33,15 +33,12 @@ class GetVersionTest extends TestCase
      * The only possible error cases are "401 Unauthorized" and "429 Too Many Requests",
      * which are not specific to the current endpoint and are therefore covered by another test.
      *
-     * @test
-     * @dataProvider successDataProvider
      *
-     * @param AuthenticationStorageInterface $authStorage
-     * @param string $responseBody
-     * @return void
      *
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('successDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getApiVersionSuccess(AuthenticationStorageInterface $authStorage, string $responseBody): void
     {
         $httpClient = new Client();
@@ -63,7 +60,7 @@ class GetVersionTest extends TestCase
         self::assertMatchesRegularExpression('|\d\.\d\.\d|', $result);
 
         // assert that result is the version number from the response body
-        $responseData = json_decode($responseBody, true);
+        $responseData = json_decode($responseBody, true, 512, JSON_THROW_ON_ERROR);
         self::assertSame($result, $responseData['backend']['version']);
     }
 }

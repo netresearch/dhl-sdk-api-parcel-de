@@ -38,8 +38,6 @@ abstract class AbstractRequestData
      * @see ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_SOAP
      * @see ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_REST
      *
-     * @param ShipmentOrderRequestBuilderInterface $builder
-     * @param array $replace
      * @return ShipmentOrderType|\JsonSerializable
      * @throws RequestValidatorException
      */

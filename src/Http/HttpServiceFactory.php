@@ -33,9 +33,6 @@ use Psr\Log\LoggerInterface;
 
 class HttpServiceFactory implements ServiceFactoryInterface
 {
-    /**
-     * @var bool
-     */
     private bool $schemaValidation = true;
 
     public function __construct(private readonly ClientInterface $httpClient, private readonly string $userAgent = '')
@@ -51,17 +48,17 @@ class HttpServiceFactory implements ServiceFactoryInterface
 
     private function getUserAgent(): string
     {
-        if (!empty($this->userAgent)) {
+        if ($this->userAgent !== '') {
             return $this->userAgent;
         }
 
-        if (!class_exists('\Composer\InstalledVersions')) {
+        if (!class_exists('\\' . \Composer\InstalledVersions::class)) {
             return 'dhl-sdk-api-bcs';
         }
 
         try {
             return 'dhl-sdk-api-bcs/' . \Composer\InstalledVersions::getVersion('dhl/sdk-api-bcs');
-        } catch (\OutOfBoundsException $exception) {
+        } catch (\OutOfBoundsException) {
             return 'dhl-sdk-api-bcs';
         }
     }

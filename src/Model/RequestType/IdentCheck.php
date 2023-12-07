@@ -15,10 +15,8 @@ class IdentCheck implements \JsonSerializable
      *
      * If the option is used: Date in format yyyy-mm-dd
      * This attribute is only optional, if a minimum age is set.
-     *
-     * @var string|null
      */
-    private ?string $dateOfBirth;
+    private ?string $dateOfBirth = null;
 
     /**
      * Checks if recipient will have reached specified age by shipping date.
@@ -26,10 +24,8 @@ class IdentCheck implements \JsonSerializable
      * Allowed values:
      * - A16
      * - A18
-     *
-     * @var string|null
      */
-    private ?string $minimumAge;
+    private ?string $minimumAge = null;
 
     public function __construct(private readonly string $firstName, private readonly string $lastName)
     {

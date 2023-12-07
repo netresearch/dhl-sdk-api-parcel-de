@@ -10,12 +10,8 @@ namespace Dhl\Sdk\ParcelDe\Shipping\Model\RequestType;
 
 class DhlRetoure implements \JsonSerializable
 {
-    private ?string $refNo;
+    private ?string $refNo = null;
 
-    /**
-     * @param string $billingNumber
-     * @param \JsonSerializable|ReturnAddress $returnAddress
-     */
     public function __construct(
         private readonly string $billingNumber,
         private readonly \JsonSerializable|ReturnAddress $returnAddress

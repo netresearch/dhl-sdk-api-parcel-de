@@ -10,13 +10,13 @@ namespace Dhl\Sdk\ParcelDe\Shipping\Model\RequestType;
 
 class CashOnDelivery implements \JsonSerializable
 {
-    private \JsonSerializable|BankAccount|null $bankAccount;
+    private \JsonSerializable|BankAccount|null $bankAccount = null;
 
-    private ?string $accountReference;
+    private ?string $accountReference = null;
 
-    private ?string $transferNote1;
+    private ?string $transferNote1 = null;
 
-    private ?string $transferNote2;
+    private ?string $transferNote2 = null;
 
     public function __construct(private readonly \JsonSerializable|MonetaryValue $amount)
     {

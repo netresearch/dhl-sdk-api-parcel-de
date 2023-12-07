@@ -32,7 +32,7 @@ class RequestTypeExpectation
     public static function assertJsonContentsAvailable(array $requestData, string $requestBody): void
     {
         $requestData = array_values($requestData);
-        $requestBody = json_decode($requestBody, true);
+        $requestBody = json_decode($requestBody, true, 512, JSON_THROW_ON_ERROR);
         foreach ($requestData as $index => $shipmentOrderData) {
             $shipmentOrder = $requestBody['shipments'][$index];
             foreach ($shipmentOrderData as $key => $expectedValue) {
@@ -56,7 +56,7 @@ class RequestTypeExpectation
         foreach ($requestData as $sequenceNumber => $shipmentOrderData) {
             $shipmentOrder = $request->xpath("./ShipmentOrder[./sequenceNumber = '$sequenceNumber']")[0];
             foreach ($shipmentOrderData as $key => $expectedValue) {
-                $expectedValue = is_bool($expectedValue) ? intval($expectedValue) : $expectedValue;
+                $expectedValue = is_bool($expectedValue) ? (int) $expectedValue : $expectedValue;
                 $path = XPath::get($key);
                 if ($key === 'shipDate') {
                     $expectedValue = $expectedValue->format('Y-m-d');

@@ -12,78 +12,56 @@ abstract class Address implements \JsonSerializable
 {
     /**
      * An optional, additional line of name information.
-     *
-     * @var string|null
      */
-    protected ?string $name2;
+    protected ?string $name2 = null;
 
     /**
      * An optional, additional line of name information.
-     *
-     * @var string|null
      */
-    protected ?string $name3;
+    protected ?string $name3 = null;
 
     /**
      * State, province or territory.
      *
      * For the USA please use the official regional ISO-Codes, e.g. US-AL.
-     *
-     * @var string|null
      */
-    protected ?string $state;
+    protected ?string $state = null;
 
     /**
      * House number, can alternatively be added to street name.
-     *
-     * @var string|null
      */
-    protected ?string $addressHouse;
+    protected ?string $addressHouse = null;
 
     /**
      * Additional information that is positioned either behind or below addressStreet on the label.
      *
      * If it is printed and where exactly depends on the country.
-     *
-     * @var string|null
      */
-    protected ?string $additionalAddressInformation1;
+    protected ?string $additionalAddressInformation1 = null;
 
     /**
      * Additional information that is positioned either behind or below addressStreet on the label.
      *
      * If it is printed and where exactly depends on the country.
-     *
-     * @var string|null
      */
-    protected ?string $additionalAddressInformation2;
+    protected ?string $additionalAddressInformation2 = null;
 
     /**
      * Optional contact name.
-     *
-     * @var string|null
      */
-    protected ?string $contactName;
+    protected ?string $contactName = null;
 
-    /**
-     * @var string|null
-     */
-    protected ?string $phone;
+    protected ?string $phone = null;
 
-    /**
-     * @var string|null
-     */
-    protected ?string $email;
+    protected ?string $email = null;
 
     /**
      * An optional, additional line of address.
      *
      * It's only usable for a few countries, e.g. Belgium.
      * It is positioned below name3 on the label.
-     *
-     * @var string|null
      */
-    private ?string $dispatchingInformation;
+    private ?string $dispatchingInformation = null;
 
     /**
      * @param string $name1 Line 1 of name information

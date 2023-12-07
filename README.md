@@ -2,7 +2,7 @@
 
 The DHL Parcel DE Shipping API SDK package offers an interface to the following web services:
 
-- [DHL Parcel DE Shipping 2.1.6](https://developer.dhl.com/api-reference/parcel-de-shipping-post-parcel-germany-v2)
+- [DHL Parcel DE Shipping 2.1.7](https://developer.dhl.com/api-reference/parcel-de-shipping-post-parcel-germany-v2)
 
 ## Requirements
 
@@ -30,11 +30,12 @@ The DHL Parcel DE Shipping API SDK package offers an interface to the following 
 
 ### Development Package Requirements
 
+- `fig/log-test`: PSR-3 logger implementation for testing purposes
 - `nyholm/psr7`: PSR-7 HTTP message factory & message implementation
 - `phpunit/phpunit`: Testing framework
 - `php-http/mock-client`: HTTPlug mock client implementation
 - `phpstan/phpstan`: Static analysis tool
-- `fig/log-test`: PSR-3 logger implementation for testing purposes
+- `rector/rector`: Automatic refactoring tool to help with PHP upgrades
 - `squizlabs/php_codesniffer`: Static analysis tool
 
 ## Installation

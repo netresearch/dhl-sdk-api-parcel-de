@@ -16,20 +16,14 @@ class PostOffice implements ConsigneeInterface, \JsonSerializable
      * The official account number a private DHL Customer gets upon registration.
      * To address a post office or retail outlet directly, either the post number
      * or e-mail address of the consignee is needed.
-     *
-     * @var string|null
      */
-    private ?string $postNumber;
+    private ?string $postNumber = null;
 
-    /**
-     * @var string|null
-     */
-    private ?string $email;
+    private ?string $email = null;
 
     /**
      * @param string $name Consignee Name
      * @param int $retailID Filialnummer: Three-digit number identifying the facility
-     * @param string $postalCode
      * @param string $city City where the facility is located
      * @param string $country A valid country code consisting of three characters according to ISO 3166-1 alpha-3
      */

@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
          colors="true"
          columns="max"
          stderr="true"
          bootstrap="../vendor/autoload.php"
 >
-    <testsuites>
-        <testsuite name="DHL Parcel DE Shipping Integration Tests">
-            <directory>.</directory>
-        </testsuite>
-    </testsuites>
-    <coverage>
-        <include>
-            <directory suffix=".php">../src</directory>
-        </include>
-    </coverage>
+  <testsuites>
+    <testsuite name="DHL Parcel DE Shipping Integration Tests">
+      <directory>.</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory>../src</directory>
+    </include>
+  </source>
 </phpunit>

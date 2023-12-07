@@ -18,7 +18,6 @@ class ValidateShipmentResponseMapper
     /**
      * Map the webservice data structure to response objects suitable for third-party consumption.
      *
-     * @param ShipmentResponse $response
      * @return ValidationResultInterface[]
      */
     public function map(ShipmentResponse $response): array
@@ -28,14 +27,12 @@ class ValidateShipmentResponseMapper
         foreach ($response->getItems() as $index => $item) {
             if (!empty($item->getValidationMessages())) {
                 $itemMessages = array_map(
-                    function (ValidationMessage $itemMessage) {
-                        return sprintf(
-                            '%s (%s): %s',
-                            $itemMessage->getValidationState(),
-                            $itemMessage->getProperty(),
-                            $itemMessage->getValidationMessage()
-                        );
-                    },
+                    fn(ValidationMessage $itemMessage): string => sprintf(
+                        '%s (%s): %s',
+                        $itemMessage->getValidationState(),
+                        $itemMessage->getProperty(),
+                        $itemMessage->getValidationMessage()
+                    ),
                     $item->getValidationMessages()
                 );
 

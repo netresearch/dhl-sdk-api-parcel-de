@@ -23,8 +23,6 @@ interface ShipmentServiceInterface
     /**
      * GetVersion is the operation call used to query the latest version available on the web.
      *
-     * @return string
-     *
      * @throws AuthenticationException
      * @throws DetailedServiceException
      * @throws ServiceException
@@ -65,7 +63,6 @@ interface ShipmentServiceInterface
      * Note that cancellation is only possible before the end-of-the-day manifest.
      *
      * @param string[] $shipmentNumbers
-     * @param string $profile
      *
      * @return string[]
      *

@@ -12,27 +12,21 @@ class Services implements \JsonSerializable
 {
     /**
      * Preferred neighbour.
-     *
-     * @var string|null
      */
-    private ?string $preferredNeighbour;
+    private ?string $preferredNeighbour = null;
 
     /**
      * Preferred location.
-     *
-     * @var string|null
      */
-    private ?string $preferredLocation;
+    private ?string $preferredLocation = null;
 
     /**
      * Preferred day of delivery in format YYYY-MM-DD.
      *
      * Shipper can request a preferred day of delivery. The preferred day
      * should be between 2 and 6 working days after handover to DHL.
-     *
-     * @var string|null
      */
-    private ?string $preferredDay;
+    private ?string $preferredDay = null;
 
     /**
      * Trigger checking the age of recipient.
@@ -40,17 +34,13 @@ class Services implements \JsonSerializable
      * Allowed values:
      * - A16
      * - A18
-     *
-     * @var string|null
      */
-    private ?string $visualCheckOfAge;
+    private ?string $visualCheckOfAge = null;
 
     /**
      * Delivery can only be signed for by yourself personally.
-     *
-     * @var bool|null
      */
-    private ?bool $namedPersonOnly;
+    private ?bool $namedPersonOnly = null;
 
     /**
      * Instructions and endorsement how to treat international undeliverable shipment.
@@ -61,45 +51,35 @@ class Services implements \JsonSerializable
      * Allowed values:
      * - RETURN
      * - ABANDON
-     *
-     * @var string|null
      */
-    private ?string $endorsement;
+    private ?string $endorsement = null;
 
     /**
      * Delivery can only be signed for by yourself personally or by members of your household.
-     *
-     * @var bool|null
      */
-    private ?bool $noNeighbourDelivery;
+    private ?bool $noNeighbourDelivery = null;
 
     /**
      * Special instructions for delivery.
      *
      * 2 character code, possible values agreed in contract.
-     *
-     * @var string|null
      */
-    private ?string $individualSenderRequirement;
+    private ?string $individualSenderRequirement = null;
 
     /**
      * Undeliverable domestic shipment can be forwarded and held at retail.
      *
      * Notification to email (fallback: consignee email) will be used.
-     *
-     * @var string|null
      */
-    private ?string $parcelOutletRouting;
+    private ?string $parcelOutletRouting = null;
 
     /**
      * Choice of premium vs economy parcel.
      *
      * Availability is country dependent and may be manipulated by DHL
      * if choice is not available. Please review the label.
-     *
-     * @var bool|null
      */
-    private ?bool $premium;
+    private ?bool $premium = null;
 
     /**
      * Closest Drop-Point Delivery
@@ -109,58 +89,31 @@ class Services implements \JsonSerializable
      * e-mail address of the receiver is mandatory. For shipments using DHL Paket
      * International it is recommended that you choose one of the three delivery types:
      * Economy, Premium, CDP. Otherwise, the current default for the receiver country will be picked.
-     *
-     * @var bool|null
      */
-    private ?bool $closestDropPoint;
+    private ?bool $closestDropPoint = null;
 
     /**
      * Sperrgut.
-     *
-     * @var bool|null
      */
-    private ?bool $bulkyGoods;
+    private ?bool $bulkyGoods = null;
 
     /**
      * PDDP: Deutsche Post and sender handle import duties instead of consignee. Duties are paid by the shipper.
-     *
-     * @var bool|null
      */
-    private ?bool $postalDeliveryDutyPaid;
-
-    /**
-     * Service for package return. Requires also DHL Retoure to be set.
-     *
-     * @var bool|null
-     */
-    private ?bool $packagingReturn;
+    private ?bool $postalDeliveryDutyPaid = null;
 
     /**
      * Delivery must be signed for by the recipient and not by DHL staff
-     *
-     * @var bool|null
      */
-    private ?bool $signedForByRecipient;
-
-    /**
-     * An email notification to the recipient that the shipment is closed (manifested).
-     *
-     * The notification can be sent to multiple recipient email addresses.
-     * This service is about to be deprecated.
-     *
-     * @var \JsonSerializable|ShippingConfirmation|null
-     */
-    private \JsonSerializable|ShippingConfirmation|null $shippingConfirmation;
+    private ?bool $signedForByRecipient = null;
 
     /**
      * Requests return label (aka 'retoure') to be provided.
      *
      * Also requires returnAddress and return billing number. Neither weight
      * nor dimension need to be specified for the retoure (flat rate service).
-     *
-     * @var \JsonSerializable|DhlRetoure|null
      */
-    private \JsonSerializable|DhlRetoure|null $dhlRetoure;
+    private \JsonSerializable|DhlRetoure|null $dhlRetoure = null;
 
     /**
      * Cash on delivery (Nachnahme).
@@ -169,17 +122,13 @@ class Services implements \JsonSerializable
      * account reference (from customer profile) must be provided.
      * Transfernote1 + 2 are references transmitted during bank transfer.
      * Providing account information explicitly requires elevated privileges.
-     *
-     * @var \JsonSerializable|CashOnDelivery|null
      */
-    private \JsonSerializable|CashOnDelivery|null $cashOnDelivery;
+    private \JsonSerializable|CashOnDelivery|null $cashOnDelivery = null;
 
     /**
      * Currency and numeric value.
-     *
-     * @var \JsonSerializable|MonetaryValue|null
      */
-    private \JsonSerializable|MonetaryValue|null $additionalInsurance;
+    private \JsonSerializable|MonetaryValue|null $additionalInsurance = null;
 
     /**
      * Check the identity of the recipient. name (Firstname, lastname), dob or age.
@@ -187,10 +136,8 @@ class Services implements \JsonSerializable
      * This uses firstName and lastName as separate attributes
      * since for identity check an automatic split of a one-line name
      * is not considered reliable enough.
-     *
-     * @var \JsonSerializable|IdentCheck|null
      */
-    private \JsonSerializable|IdentCheck|null $identCheck;
+    private \JsonSerializable|IdentCheck|null $identCheck = null;
 
     public function setPreferredNeighbour(?string $preferredNeighbour): void
     {
@@ -257,19 +204,9 @@ class Services implements \JsonSerializable
         $this->postalDeliveryDutyPaid = $postalDeliveryDutyPaid;
     }
 
-    public function setPackagingReturn(?bool $packagingReturn): void
-    {
-        $this->packagingReturn = $packagingReturn;
-    }
-
     public function setSignedForByRecipient(?bool $signedForByRecipient): void
     {
         $this->signedForByRecipient = $signedForByRecipient;
-    }
-
-    public function setShippingConfirmation(\JsonSerializable|ShippingConfirmation|null $shippingConfirmation): void
-    {
-        $this->shippingConfirmation = $shippingConfirmation;
     }
 
     public function setDhlRetoure(\JsonSerializable|DhlRetoure|null $dhlRetoure): void

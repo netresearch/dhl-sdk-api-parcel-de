@@ -46,18 +46,12 @@ interface ShipmentOrderRequestBuilderInterface
     public const MSG_MISSING_CONTACT = 'Either recipient email or post number must be set for Postfiliale delivery.';
     public const MSG_SERVICE_UNSUPPORTED = 'The service "%s" is not supported.';
 
-    /**
-     * @param string $sequenceNumber
-     * @return ShipmentOrderRequestBuilderInterface
-     */
     public function setSequenceNumber(string $sequenceNumber): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Set shipper account (required).
      *
-     * @param string $billingNumber
      * @param string|null $returnBillingNumber Provide if return label should be included with response.
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipperAccount(
         string $billingNumber,
@@ -71,12 +65,6 @@ interface ShipmentOrderRequestBuilderInterface
      *
      * @see setShipperReference
      *
-     * @param string $company
-     * @param string $countryCode
-     * @param string $postalCode
-     * @param string $city
-     * @param string $streetName
-     * @param string $streetNumber
      * @param string|null $name
      * @param string|null $nameAddition
      * @param string|null $email
@@ -85,7 +73,6 @@ interface ShipmentOrderRequestBuilderInterface
      * @param string|null $state
      * @param string|null $dispatchingInformation
      * @param string[] $addressAddition
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipperAddress(
         string $company,
@@ -118,7 +105,6 @@ interface ShipmentOrderRequestBuilderInterface
      * @param string|null $bic
      * @param string|null $accountReference
      * @param string[] $notes
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipperBankData(
         string $accountOwner = null,
@@ -134,12 +120,6 @@ interface ShipmentOrderRequestBuilderInterface
      *
      * Return address will be discarded if no return billing number is given.
      *
-     * @param string $company
-     * @param string $countryCode
-     * @param string $postalCode
-     * @param string $city
-     * @param string $streetName
-     * @param string $streetNumber
      * @param string|null $name
      * @param string|null $nameAddition
      * @param string|null $email
@@ -148,7 +128,6 @@ interface ShipmentOrderRequestBuilderInterface
      * @param string|null $state
      * @param string|null $dispatchingInformation
      * @param string[] $addressAddition
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setReturnAddress(
         string $company,
@@ -170,12 +149,6 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Set consignee address for a shipment (required).
      *
-     * @param string $name
-     * @param string $countryCode
-     * @param string $postalCode
-     * @param string $city
-     * @param string $streetName
-     * @param string $streetNumber
      * @param string|null $company
      * @param string|null $nameAddition
      * @param string|null $email
@@ -184,7 +157,6 @@ interface ShipmentOrderRequestBuilderInterface
      * @param string|null $state
      * @param string|null $dispatchingInformation
      * @param string[] $addressAddition
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setRecipientAddress(
         string $name,
@@ -202,14 +174,6 @@ interface ShipmentOrderRequestBuilderInterface
         string $dispatchingInformation = null,
         array $addressAddition = []
     ): ShipmentOrderRequestBuilderInterface;
-
-    /**
-     * Enable sending recipient notifications by email after successful manifesting of shipment.
-     *
-     * @param string $email
-     * @return ShipmentOrderRequestBuilderInterface
-     */
-    public function setRecipientNotification(string $email): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Set shipment details (required).
@@ -230,7 +194,6 @@ interface ShipmentOrderRequestBuilderInterface
      * @param string|null $shipmentReference
      * @param string|null $returnReference
      * @param string|null $costCentre
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipmentDetails(
         string $productCode,
@@ -244,15 +207,11 @@ interface ShipmentOrderRequestBuilderInterface
      * Set package details.
      *
      * @param float $weightInKg Weight in KG, two digits after the decimal point
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackageDetails(float $weightInKg): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Set the amount the package should be insured with. Omit if standard amount is sufficient.
-     *
-     * @param float $insuredValue
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setInsuredValue(float $insuredValue): ShipmentOrderRequestBuilderInterface;
 
@@ -260,7 +219,6 @@ interface ShipmentOrderRequestBuilderInterface
      * Set COD amount (optional).
      *
      * @param float $codAmount Money amount to be collected.
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setCodAmount(float $codAmount): ShipmentOrderRequestBuilderInterface;
 
@@ -270,7 +228,6 @@ interface ShipmentOrderRequestBuilderInterface
      * @param int $width Width in cm
      * @param int $length Length in cm
      * @param int $height Height in cm
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackageDimensions(
         int $width,
@@ -283,15 +240,8 @@ interface ShipmentOrderRequestBuilderInterface
      *
      * Post number of the receiver is required.
      *
-     * @param string $recipientName
-     * @param string $recipientPostNumber
-     * @param string $packstationNumber
-     * @param string $countryCode
-     * @param string $postalCode
-     * @param string $city
      * @param string|null $state
      * @param string|null $country
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPackstation(
         string $recipientName,
@@ -309,17 +259,11 @@ interface ShipmentOrderRequestBuilderInterface
      *
      * Post number of the receiver may be omitted.
      *
-     * @todo(nr): add email argument once SOAP API support gets dropped.
+     * @todo(nr): DHLGW-1355 add email argument
      *
-     * @param string $recipientName
-     * @param string $postfilialNumber
-     * @param string $countryCode
-     * @param string $postalCode
-     * @param string $city
      * @param string|null $postNumber If not set, receiver email will be used.
      * @param string|null $state
      * @param string|null $country
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPostfiliale(
         string $recipientName,
@@ -335,12 +279,7 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Choose P.O. Box (Postfach) delivery
      *
-     * @param string $recipientName
      * @param string $poBoxNumber 6-digit numeric value, no whitespace
-     * @param string $countryCode
-     * @param string $postalCode
-     * @param string $city
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPOBox(
         string $recipientName,
@@ -356,78 +295,46 @@ interface ShipmentOrderRequestBuilderInterface
      * If not given, set address details.
      *
      * @see setShipperAddress
-     *
-     * @param string $reference
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipperReference(string $reference): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Book "Day of Delivery" service (V06TG and V06WZ only).
-     *
-     * @param string $cetDate
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setDayOfDelivery(string $cetDate): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Book "Delivery Time Frame" service (V06TG and V06WZ only).
-     *
-     * @param string $timeFrameType
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setDeliveryTimeFrame(string $timeFrameType): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Book "Preferred Day" service.
-     *
-     * @param string $cetDate
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPreferredDay(string $cetDate): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Book "Preferred Location" service.
-     *
-     * @param string $location
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPreferredLocation(string $location): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Book "Preferred Neighbour" service.
-     *
-     * @param string $neighbour
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setPreferredNeighbour(string $neighbour): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Add individual details for handling (free text).
-     *
-     * @param string $handlingDetails
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setIndividualSenderRequirement(string $handlingDetails): ShipmentOrderRequestBuilderInterface;
 
     /**
-     * Book service for package return.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
-     */
-    public function setPackagingReturn(): ShipmentOrderRequestBuilderInterface;
-
-    /**
      * Book service of immediate shipment return in case of non-successful delivery (V06PA only).
-     *
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setReturnImmediately(): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Book service notice in case of non-deliverability.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setNoticeOfNonDeliverability(): ShipmentOrderRequestBuilderInterface;
 
@@ -440,9 +347,6 @@ interface ShipmentOrderRequestBuilderInterface
      *
      * @see ShipmentOrderRequestBuilderInterface::ENDORSEMENT_TYPE_IMMEDIATE
      * @see ShipmentOrderRequestBuilderInterface::ENDORSEMENT_TYPE_ABANDONMENT
-     *
-     * @param string $endorsementType
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setShipmentEndorsementType(string $endorsementType): ShipmentOrderRequestBuilderInterface;
 
@@ -455,30 +359,21 @@ interface ShipmentOrderRequestBuilderInterface
      *
      * @see ShipmentOrderRequestBuilderInterface::AGE_TYPE_16
      * @see ShipmentOrderRequestBuilderInterface::AGE_TYPE_18
-     *
-     * @param string $ageType
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setVisualCheckOfAge(string $ageType): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Prohibit delivery to neighbours.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setNoNeighbourDelivery(): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Book "Named Person Only" service.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setNamedPersonOnly(): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Book "Return Receipt" service.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setReturnReceipt(): ShipmentOrderRequestBuilderInterface;
 
@@ -488,17 +383,11 @@ interface ShipmentOrderRequestBuilderInterface
      * @see ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_ECONOMY
      * @see ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_PREMIUM
      * @see ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_CDP
-     *
-     * @param string $deliveryType
-     *
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setDeliveryType(string $deliveryType): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Indicate shipment containing bulky goods.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setBulkyGoods(): ShipmentOrderRequestBuilderInterface;
 
@@ -507,12 +396,6 @@ interface ShipmentOrderRequestBuilderInterface
      *
      * @see ShipmentOrderRequestBuilderInterface::AGE_TYPE_16
      * @see ShipmentOrderRequestBuilderInterface::AGE_TYPE_18
-     *
-     * @param string $lastName
-     * @param string $firstName
-     * @param string $dateOfBirth
-     * @param string $minimumAge
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setIdentCheck(
         string $lastName,
@@ -525,21 +408,16 @@ interface ShipmentOrderRequestBuilderInterface
      * Book "Parcel Outlet Routing" service.
      *
      * @param string|null $email If not set, receiver email will be used.
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setParcelOutletRouting(string $email = null): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Book the "Postal Delivery Duty Paid" (PDDP) service.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setDeliveryDutyPaid(): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Book the "Signed For By Recipient" service.
-     *
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setSignedForByRecipient(): ShipmentOrderRequestBuilderInterface;
 
@@ -559,9 +437,6 @@ interface ShipmentOrderRequestBuilderInterface
      * @see ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DDX
      * @see ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_CPT
      *
-     * @param string $exportType
-     * @param string $placeOfCommital
-     * @param float $additionalFee
      * @param string|null $exportTypeDescription
      * @param string|null $termsOfTrade
      * @param string|null $invoiceNumber
@@ -570,7 +445,6 @@ interface ShipmentOrderRequestBuilderInterface
      * @param bool|null $electronicExportNotification
      * @param string|null $sendersCustomsReference
      * @param string|null $addresseesCustomsReference
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function setCustomsDetails(
         string $exportType,
@@ -584,18 +458,13 @@ interface ShipmentOrderRequestBuilderInterface
         bool $electronicExportNotification = null,
         string $sendersCustomsReference = null,
         string $addresseesCustomsReference = null
-    );
+    ): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Add a package item's customs details (optional).
      *
-     * @param int $qty
-     * @param string $description
      * @param float $value Customs value in EUR
      * @param float $weight Weight in kg, two digits after the decimal point
-     * @param string $hsCode
-     * @param string $countryOfOrigin
-     * @return ShipmentOrderRequestBuilderInterface
      */
     public function addExportItem(
         int $qty,
@@ -609,7 +478,6 @@ interface ShipmentOrderRequestBuilderInterface
     /**
      * Create the shipment request and reset the builder data.
      *
-     * @return object
      * @throws RequestValidatorException
      */
     public function create(): object;

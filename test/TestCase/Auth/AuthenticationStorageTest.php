@@ -13,10 +13,8 @@ use PHPUnit\Framework\TestCase;
 
 class AuthenticationStorageTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function propertiesAreAvailableThroughGetters()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function propertiesAreAvailableThroughGetters(): void
     {
         $apiKey = 'apiKey';
         $user = 'user';
