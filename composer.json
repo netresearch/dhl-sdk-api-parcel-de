@@ -17,7 +17,7 @@
     "require": {
         "php": "^8.1.0",
         "ext-json": "*",
-        "league/openapi-psr7-validator": "^0.21.0",
+        "league/openapi-psr7-validator": "^0.22.0",
         "netresearch/jsonmapper": "^4.0.0",
         "php-http/discovery": "^1.17.0",
         "php-http/httplug": "^2.2.0",
@@ -26,8 +26,8 @@
         "psr/http-client-implementation": "^1.0.0",
         "psr/http-factory": "^1.0.0",
         "psr/http-factory-implementation": "^1.0.0",
-        "psr/http-message": "^1.0.0",
-        "psr/http-message-implementation": "^1.0.0",
+        "psr/http-message": "^1.0.0 || ^2.0.0",
+        "psr/http-message-implementation": "^1.0.0 || ^2.0.0",
         "psr/log": "^1.1.0 || ^2.0.0 || ^3.0.0"
     },
     "require-dev": {
@@ -53,5 +53,10 @@
         "allow-plugins": {
             "php-http/discovery": false
         }
+    },
+    "scripts": {
+        "test": "phpunit -c test/phpunit.xml",
+        "phpstan": "phpstan --xdebug analyze src",
+        "lint": "phpcs --exclude=PSR2.Classes.PropertyDeclaration,Generic.Files.LineLength --standard=PSR12 src test"
     }
 }

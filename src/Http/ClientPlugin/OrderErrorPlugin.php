@@ -147,14 +147,14 @@ final class OrderErrorPlugin implements Plugin
     }
 
     /**
-     * @param callable(RequestInterface): Promise<RequestInterface> $next
-     * @param callable(RequestInterface): Promise<RequestInterface> $first
+     * @param callable(RequestInterface): Promise $next
+     * @param callable(RequestInterface): Promise $first
      *
-     * @return Promise<ResponseInterface>
+     * @return Promise
      */
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
-        /** @var Promise<ResponseInterface> $promise */
+        /** @var Promise $promise */
         $promise = $next($request);
         $fnFulfilled = function (ResponseInterface $response) use ($request): ResponseInterface {
             $statusCode = $response->getStatusCode();

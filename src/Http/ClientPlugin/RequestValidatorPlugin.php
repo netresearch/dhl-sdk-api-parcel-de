@@ -82,9 +82,9 @@ final class RequestValidatorPlugin implements Plugin
     }
 
     /**
-     * @param callable(RequestInterface): Promise<RequestInterface> $next
-     * @param callable(RequestInterface): Promise<RequestInterface> $first
-     * @return Promise<RequestInterface>
+     * @param callable(RequestInterface): Promise $next
+     * @param callable(RequestInterface): Promise $first
+     * @return Promise
      * @throws SchemaErrorException
      * @throws \JsonException
      */
