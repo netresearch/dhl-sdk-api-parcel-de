@@ -1,0 +1,27 @@
+{
+  "status": {
+    "title": "Bad Request",
+    "statusCode": 400,
+    "detail": "0 of 1 shipment successfully created."
+  },
+  "items": [
+    {
+      "sstatus": {
+        "title": "Bad Request",
+        "statusCode": 400
+      },
+      "validationMessages": [
+        {
+          "property": "shipper",
+          "validationMessage": "The house number entered could not be found.",
+          "validationState": "Warning"
+        },
+        {
+          "property": "consignee",
+          "validationMessage": "The city entered does not match the postcode. The shipment is not codeable.",
+          "validationState": "Warning"
+        }
+      ]
+    }
+  ]
+}
