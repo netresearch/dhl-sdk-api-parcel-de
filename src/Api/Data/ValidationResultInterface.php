@@ -13,7 +13,7 @@ namespace Dhl\Sdk\ParcelDe\Shipping\Api\Data;
  */
 interface ValidationResultInterface
 {
-    public function getSequenceNumber(): string;
+    public function getRequestIndex(): int;
 
     public function isValid(): bool;
 

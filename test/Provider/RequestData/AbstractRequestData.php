@@ -14,16 +14,16 @@ use Dhl\Sdk\ParcelDe\Shipping\Model\Bcs\CreateShipment\RequestType\ShipmentOrder
 
 abstract class AbstractRequestData
 {
-    protected $sequenceNumber = '';
+    protected ?int $requestIndex = 0;
 
-    public function getSequenceNumber(): string
+    public function getRequestIndex(): ?int
     {
-        return $this->sequenceNumber;
+        return $this->requestIndex;
     }
 
-    public function setSequenceNumber(string $sequenceNumber): void
+    public function setRequestIndex(int $requestIndex): void
     {
-        $this->sequenceNumber = $sequenceNumber;
+        $this->requestIndex = $requestIndex;
     }
 
     abstract public function get(): array;
@@ -35,10 +35,7 @@ abstract class AbstractRequestData
      *
      * Optionally, replace certain fields of the original data before building the request object.
      *
-     * @see ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_SOAP
-     * @see ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_REST
-     *
-     * @return ShipmentOrderType|\JsonSerializable
+     * @return \JsonSerializable
      * @throws RequestValidatorException
      */
     public function createShipmentOrder(

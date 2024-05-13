@@ -19,7 +19,7 @@ interface ShipmentInterface
     public const LABEL_TYPE_COD = 'label_cod';
     public const LABEL_TYPE_OTHER = 'label_other';
 
-    public function getSequenceNumber(): string;
+    public function getRequestIndex(): int;
 
     public function getShipmentNumber(): string;
 

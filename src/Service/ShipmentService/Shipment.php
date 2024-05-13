@@ -13,7 +13,7 @@ use Dhl\Sdk\ParcelDe\Shipping\Api\Data\ShipmentInterface;
 class Shipment implements ShipmentInterface
 {
     public function __construct(
-        private readonly string $sequenceNumber,
+        private readonly int $requestIndex,
         private readonly string $shipmentNumber,
         private readonly string $returnShipmentNumber,
         private readonly string $shipmentLabel,
@@ -23,9 +23,9 @@ class Shipment implements ShipmentInterface
     ) {
     }
 
-    public function getSequenceNumber(): string
+    public function getRequestIndex(): int
     {
-        return $this->sequenceNumber;
+        return $this->requestIndex;
     }
 
     public function getShipmentNumber(): string

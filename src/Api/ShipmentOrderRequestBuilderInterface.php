@@ -15,9 +15,6 @@ use Dhl\Sdk\ParcelDe\Shipping\Exception\RequestValidatorException;
  */
 interface ShipmentOrderRequestBuilderInterface
 {
-    public const REQUEST_TYPE_SOAP = 'SOAP';
-    public const REQUEST_TYPE_REST = 'REST';
-
     public const ENDORSEMENT_TYPE_IMMEDIATE = 'IMMEDIATE';
     public const ENDORSEMENT_TYPE_ABANDONMENT = 'ABANDONMENT';
 
@@ -46,7 +43,7 @@ interface ShipmentOrderRequestBuilderInterface
     public const MSG_MISSING_CONTACT = 'Either recipient email or post number must be set for Postfiliale delivery.';
     public const MSG_SERVICE_UNSUPPORTED = 'The service "%s" is not supported.';
 
-    public function setSequenceNumber(string $sequenceNumber): ShipmentOrderRequestBuilderInterface;
+    public function setRequestIndex(int $requestIndex): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Set shipper account (required).

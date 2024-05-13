@@ -31,7 +31,7 @@ class CreateShipmentResponseMapper
             }
 
             $results[] = new Shipment(
-                (string) $index,
+                $index,
                 $item->getShipmentNo() ?? '',
                 $item->getReturnShipmentNo() ?? '',
                 $item->getLabel() instanceof Label ? (string) $item->getLabel()->getB64() : '',

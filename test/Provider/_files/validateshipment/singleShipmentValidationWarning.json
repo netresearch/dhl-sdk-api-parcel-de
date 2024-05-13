@@ -6,7 +6,7 @@
   },
   "items": [
     {
-      "sequenceNumber": 1,
+      "requestIndex": 1,
       "sstatus": {
         "title": "Within the shipment there was at least one weak validation error.",
         "statusCode": 400

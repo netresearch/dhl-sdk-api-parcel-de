@@ -17,7 +17,8 @@ class ArrayPath
     final public const PATH_LABEL_FORMAT_RETOURE = './labelFormatRetoure';
     final public const PATH_COMBINED_PRINTING = './combinedPrinting';
 
-    final public const PATH_SEQUENCE_NUMBER = ''; // N/A
+    // formerly SequenceNumber
+    final public const PATH_REQUEST_INDEX = ''; // N/A
     final public const PATH_ACCOUNT_NUMBER = 'billingNumber';
     final public const PATH_RETURN_ACCOUNT_NUMBER = 'services/dhlRetoure/billingNumber';
 
@@ -175,7 +176,7 @@ class ArrayPath
             'labelFormatRetoure' => self::PATH_LABEL_FORMAT_RETOURE,
             'combinedPrinting' => self::PATH_COMBINED_PRINTING,
 
-            'sequenceNumber' => self::PATH_SEQUENCE_NUMBER,
+            'requestIndex' => self::PATH_REQUEST_INDEX,
             'billingNumber' => self::PATH_ACCOUNT_NUMBER,
             'returnBillingNumber' => self::PATH_RETURN_ACCOUNT_NUMBER,
             'productCode' => self::PATH_PRODUCT,

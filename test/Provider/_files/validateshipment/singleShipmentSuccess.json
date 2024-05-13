@@ -6,7 +6,7 @@
   },
   "items": [
     {
-      "sequenceNumber": 1,
+      "requestIndex": 1,
       "sstatus": {
         "title": "ok",
         "statusCode": 200,
