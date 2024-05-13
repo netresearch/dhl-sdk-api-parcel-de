@@ -13,15 +13,15 @@ use Dhl\Sdk\ParcelDe\Shipping\Api\Data\ValidationResultInterface;
 class ValidationResult implements ValidationResultInterface
 {
     public function __construct(
-        private readonly string $sequenceNumber,
+        private readonly int $requestIndex,
         private readonly bool $valid,
         private readonly string $message
     ) {
     }
 
-    public function getSequenceNumber(): string
+    public function getRequestIndex(): int
     {
-        return $this->sequenceNumber;
+        return $this->requestIndex;
     }
 
     public function isValid(): bool

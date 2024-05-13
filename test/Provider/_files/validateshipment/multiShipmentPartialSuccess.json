@@ -6,7 +6,7 @@
   },
   "items": [
     {
-      "sequenceNumber": 1,
+      "requestIndex": 1,
       "sstatus": {
         "title": "OK",
         "statusCode": 200,
@@ -15,7 +15,7 @@
       "validationMessages": []
     },
     {
-      "sequenceNumber": 2,
+      "requestIndex": 2,
       "sstatus": {
         "title": "Within the shipment there was at least one weak validation error.",
         "statusCode": 400

@@ -96,7 +96,7 @@ final class OrderErrorPlugin implements Plugin
      *                 }
      *             }|array{
      *                  array{
-     *                      'sequenceNumber'?: int,
+     *                      'requestIndex'?: int,
      *                      'shipmentNo'?: string,
      *                      'sstatus': array{'title': string, 'statusCode': int, 'detail'?: string},
      *                      'validationMessages'?: string[][]
@@ -128,8 +128,8 @@ final class OrderErrorPlugin implements Plugin
 
                 if ($message && isset($responseItem['shipmentNo'])) {
                     $message = sprintf('[%s] %s', $responseItem['shipmentNo'], $message);
-                } elseif ($message && isset($responseItem['sequenceNumber'])) {
-                    $message = sprintf('[%s] %s', $responseItem['sequenceNumber'], $message);
+                } elseif ($message && isset($responseItem['requestIndex'])) {
+                    $message = sprintf('[%s] %s', $responseItem['requestIndex'], $message);
                 }
 
                 return $message;
@@ -147,6 +147,7 @@ final class OrderErrorPlugin implements Plugin
     }
 
     /**
+     *
      * @param callable(RequestInterface): Promise $next
      * @param callable(RequestInterface): Promise $first
      *

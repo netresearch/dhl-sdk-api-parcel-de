@@ -31,8 +31,6 @@ use Psr\Log\NullLogger;
 
 class RequestBuilderTest extends TestCase
 {
-    private const REQUEST_TYPE = ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_REST;
-
     /**
      * @return mixed[]
      * @throws \Exception
@@ -106,7 +104,7 @@ class RequestBuilderTest extends TestCase
         $shipmentOrders = [];
         $requestValues = [];
 
-        $requestBuilder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
+        $requestBuilder = new ShipmentOrderRequestBuilder();
 
         foreach ($requestData as $data) {
             $shipmentOrders[] = $data->createShipmentOrder($requestBuilder);
@@ -155,7 +153,7 @@ class RequestBuilderTest extends TestCase
         $shipmentOrders = [];
         $requestValues = [];
 
-        $requestBuilder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
+        $requestBuilder = new ShipmentOrderRequestBuilder();
 
         foreach ($requestData as $data) {
             $shipmentOrders[] = $data->createShipmentOrder($requestBuilder);
@@ -204,7 +202,7 @@ class RequestBuilderTest extends TestCase
         $this->expectException(RequestValidatorException::class);
         $this->expectExceptionMessage(ShipmentOrderRequestBuilderInterface::MSG_MISSING_SHIPPER);
 
-        $builder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
+        $builder = new ShipmentOrderRequestBuilder();
         $builder->setShipperAccount('33333333330101');
         $builder->setRecipientAddress('John Doe', 'DEU', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20');
         $builder->setShipmentDetails('V01PAK', new \DateTime(date('c', time() + 60 * 60 * 24)));
@@ -223,7 +221,7 @@ class RequestBuilderTest extends TestCase
         $this->expectException(RequestValidatorException::class);
         $this->expectExceptionMessage(ShipmentOrderRequestBuilderInterface::MSG_MISSING_RECIPIENT);
 
-        $builder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
+        $builder = new ShipmentOrderRequestBuilder();
         $builder->setShipperAccount('33333333330101');
         $builder->setShipperAddress('Netresearch GmbH & Co.KG', 'DEU', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $builder->setShipmentDetails('V01PAK', new \DateTime(date('c', time() + 60 * 60 * 24)));
@@ -242,7 +240,7 @@ class RequestBuilderTest extends TestCase
         $this->expectException(RequestValidatorException::class);
         $this->expectExceptionMessage(ShipmentOrderRequestBuilderInterface::MSG_MISSING_CONTACT);
 
-        $builder = new ShipmentOrderRequestBuilder(self::REQUEST_TYPE);
+        $builder = new ShipmentOrderRequestBuilder();
         $builder->setShipperAccount('33333333330101');
         $builder->setShipperAddress('Netresearch GmbH & Co.KG', 'DEU', '04229', 'Leipzig', 'Nonnenstraße', '11d');
         $builder->setPostfiliale('Jane Doe', '502', 'DEU', '53113', 'Bonn');

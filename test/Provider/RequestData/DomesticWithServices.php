@@ -17,7 +17,7 @@ class DomesticWithServices extends AbstractRequestData
         $tsShip = time() + 60 * 60 * 24; // tomorrow
 
         return [
-            'sequenceNumber' => $this->getSequenceNumber(),
+            'requestIndex' => $this->getRequestIndex(),
             'billingNumber' => '33333333335301',
             'returnBillingNumber' => '33333333330701',
             'productCode' => 'V01PAK',
@@ -108,7 +108,7 @@ class DomesticWithServices extends AbstractRequestData
 
     protected function setBuilderData(ShipmentOrderRequestBuilderInterface $builder, array $data): void
     {
-        $builder->setSequenceNumber($data['sequenceNumber']);
+        $builder->setRequestIndex($data['requestIndex']);
         $builder->setShipperAccount(
             $data['billingNumber'],
             $data['returnBillingNumber']

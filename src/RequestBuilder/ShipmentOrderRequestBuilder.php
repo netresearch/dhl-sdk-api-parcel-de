@@ -39,9 +39,9 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
      */
     private array $data = [];
 
-    public function setSequenceNumber(string $sequenceNumber): ShipmentOrderRequestBuilderInterface
+    public function setRequestIndex(int $requestIndex): ShipmentOrderRequestBuilderInterface
     {
-        $this->data['sequenceNumber'] = $sequenceNumber;
+        $this->data['requestIndex'] = $requestIndex;
 
         return $this;
     }

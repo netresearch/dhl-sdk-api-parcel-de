@@ -24,9 +24,9 @@ class ShipmentServiceTestExpectation
             $result,
             function (array $carry, ValidationResultInterface $validationResult): array {
                 if ($validationResult->isValid()) {
-                    $carry['valid'][] = (int) $validationResult->getSequenceNumber();
+                    $carry['valid'][] = $validationResult->getRequestIndex();
                 } else {
-                    $carry['invalid'][] = (int) $validationResult->getSequenceNumber();
+                    $carry['invalid'][] = $validationResult->getRequestIndex();
                 }
                 return $carry;
             },
@@ -145,7 +145,7 @@ class ShipmentServiceTestExpectation
         $labels = array_reduce(
             $result,
             function (array $carry, ShipmentInterface $shipment): array {
-                $carry[$shipment->getSequenceNumber()] = $shipment->getLabels();
+                $carry[$shipment->getRequestIndex()] = $shipment->getLabels();
                 return $carry;
             },
             []
