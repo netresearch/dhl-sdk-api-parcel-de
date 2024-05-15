@@ -101,6 +101,7 @@ class ArrayPath
     final public const PATH_POSTFILIALE_POST_NUMBER = 'consignee/postNumber';
     final public const PATH_POSTFILIALE_POSTAL_CODE = 'consignee/postalCode';
     final public const PATH_POSTFILIALE_CITY = 'consignee/city';
+    final public const PATH_POSTFILIALE_EMAIL = 'consignee/email';
     final public const PATH_POSTFILIALE_COUNTRY = ''; // N/A
     final public const PATH_POSTFILIALE_COUNTRY_CODE = 'consignee/country';
     final public const PATH_POSTFILIALE_STATE = ''; // N/A
@@ -257,6 +258,7 @@ class ArrayPath
             'postfilialPostNumber' => self::PATH_POSTFILIALE_POST_NUMBER,
             'postfilialPostalCode' => self::PATH_POSTFILIALE_POSTAL_CODE,
             'postfilialCity' => self::PATH_POSTFILIALE_CITY,
+            'postfilialEmail' => self::PATH_POSTFILIALE_EMAIL,
             'postfilialCountry' => self::PATH_POSTFILIALE_COUNTRY,
             'postfilialCountryCode' => self::PATH_POSTFILIALE_COUNTRY_CODE,
             'postfilialState' => self::PATH_POSTFILIALE_STATE,

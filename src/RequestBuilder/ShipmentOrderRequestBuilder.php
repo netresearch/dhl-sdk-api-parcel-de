@@ -241,7 +241,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $state = null,
         string $country = null
     ): ShipmentOrderRequestBuilderInterface {
-        $this->data['recipient']['address']['name'] = $recipientName;
+        $this->data['recipient']['packstation']['name'] = $recipientName;
         $this->data['recipient']['packstation']['postNumber'] = $recipientPostNumber;
         $this->data['recipient']['packstation']['number'] = $packstationNumber;
         $this->data['recipient']['packstation']['countryCode'] = $countryCode;
@@ -259,15 +259,17 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $countryCode,
         string $postalCode,
         string $city,
+        string $email = null,
         string $postNumber = null,
         string $state = null,
         string $country = null
     ): ShipmentOrderRequestBuilderInterface {
-        $this->data['recipient']['address']['name'] = $recipientName;
+        $this->data['recipient']['postfiliale']['name'] = $recipientName;
         $this->data['recipient']['postfiliale']['number'] = $postfilialNumber;
         $this->data['recipient']['postfiliale']['countryCode'] = $countryCode;
         $this->data['recipient']['postfiliale']['postalCode'] = $postalCode;
         $this->data['recipient']['postfiliale']['city'] = $city;
+        $this->data['recipient']['postfiliale']['email'] = $email;
         $this->data['recipient']['postfiliale']['postNumber'] = $postNumber;
         $this->data['recipient']['postfiliale']['state'] = $state;
         $this->data['recipient']['postfiliale']['country'] = $country;
@@ -282,7 +284,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $postalCode,
         string $city
     ): ShipmentOrderRequestBuilderInterface {
-        $this->data['recipient']['address']['name'] = $recipientName;
+        $this->data['recipient']['pobox']['name'] = $recipientName;
         $this->data['recipient']['pobox']['number'] = $poBoxNumber;
         $this->data['recipient']['pobox']['countryCode'] = $countryCode;
         $this->data['recipient']['pobox']['postalCode'] = $postalCode;
@@ -526,7 +528,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
         if (isset($this->data['recipient']['packstation'])) {
             $consignee = new Locker(
-                $this->data['recipient']['address']['name'],
+                $this->data['recipient']['packstation']['name'],
                 (int) $this->data['recipient']['packstation']['number'],
                 $this->data['recipient']['packstation']['postalCode'],
                 $this->data['recipient']['packstation']['city'],
@@ -535,24 +537,24 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             );
         } elseif (isset($this->data['recipient']['postfiliale'])) {
             if (
-                empty($this->data['recipient']['address']['email'])
+                empty($this->data['recipient']['postfiliale']['email'])
                 && empty($this->data['recipient']['postfiliale']['postNumber'])
             ) {
                 throw new RequestValidatorException(ShipmentOrderRequestBuilderInterface::MSG_MISSING_CONTACT);
             }
 
             $consignee = new PostOffice(
-                $this->data['recipient']['address']['name'],
+                $this->data['recipient']['postfiliale']['name'],
                 (int) $this->data['recipient']['postfiliale']['number'],
                 $this->data['recipient']['postfiliale']['postalCode'],
                 $this->data['recipient']['postfiliale']['city'],
                 $this->data['recipient']['postfiliale']['countryCode']
             );
             $consignee->setPostNumber($this->data['recipient']['postfiliale']['postNumber']);
-            $consignee->setEmail($this->data['recipient']['address']['email'] ?? '');
+            $consignee->setEmail($this->data['recipient']['postfiliale']['email'] ?? '');
         } elseif (isset($this->data['recipient']['pobox'])) {
             $consignee = new POBox(
-                $this->data['recipient']['address']['name'],
+                $this->data['recipient']['pobox']['name'],
                 (int) $this->data['recipient']['pobox']['number'],
                 $this->data['recipient']['pobox']['postalCode'],
                 $this->data['recipient']['pobox']['city'],

@@ -13,6 +13,7 @@ class Locker implements ConsigneeInterface, \JsonSerializable
     /**
      * @param string $name Consignee Name
      * @param int $lockerID Packstationnummer: Three-digit number identifying the parcel locker
+     * @param string $postalCode
      * @param string $city City where the locker is located
      * @param string $country A valid country code consisting of three characters according to ISO 3166-1 alpha-3
      * @param string $postNumber The official account number a private DHL Customer gets upon registration

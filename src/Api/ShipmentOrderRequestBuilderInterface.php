@@ -268,6 +268,7 @@ interface ShipmentOrderRequestBuilderInterface
         string $countryCode,
         string $postalCode,
         string $city,
+        string $email = null,
         string $postNumber = null,
         string $state = null,
         string $country = null

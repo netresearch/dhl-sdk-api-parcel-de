@@ -42,6 +42,7 @@ class PostOffice extends AbstractRequestData
             'postfilialPostNumber' => '', // recipient contact via email
             'postfilialPostalCode' => '53113',
             'postfilialCity' => 'Bonn',
+            'postfilialEmail' => 'doe@example.org',
             'postfilialCountry' => 'Deutschland',
             'postfilialCountryCode' => 'DEU',
             'postfilialState' => 'NRW',
@@ -81,6 +82,7 @@ class PostOffice extends AbstractRequestData
             $data['postfilialCountryCode'],
             $data['postfilialPostalCode'],
             $data['postfilialCity'],
+            $data['postfilialEmail'],
             $data['postfilialPostNumber'],
             $data['postfilialState'],
             $data['postfilialCountry']

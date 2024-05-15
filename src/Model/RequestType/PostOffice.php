@@ -24,6 +24,7 @@ class PostOffice implements ConsigneeInterface, \JsonSerializable
     /**
      * @param string $name Consignee Name
      * @param int $retailID Filialnummer: Three-digit number identifying the facility
+     * @param string $postalCode
      * @param string $city City where the facility is located
      * @param string $country A valid country code consisting of three characters according to ISO 3166-1 alpha-3
      */
