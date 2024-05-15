@@ -79,6 +79,11 @@ class Customs implements \JsonSerializable
     private ?bool $hasElectronicExportNotification = null;
 
     /**
+     * Master Reference Number
+     */
+    private ?string $MRN = null;
+
+    /**
      * @param \JsonSerializable[]|CustomsItem[] $items Commodity types in that package
      * @param string $exportType Category of goods contained in parcel
      */
@@ -134,6 +139,11 @@ class Customs implements \JsonSerializable
     public function setHasElectronicExportNotification(?bool $hasElectronicExportNotification): void
     {
         $this->hasElectronicExportNotification = $hasElectronicExportNotification;
+    }
+
+    public function setMRN(?string $MRN): void
+    {
+        $this->MRN = $MRN;
     }
 
     /**
