@@ -1,0 +1,17 @@
+{
+  "status": {
+    "title": "Bad Request",
+    "statusCode": 400,
+    "detail": "0 of 1 shipment successfully canceled."
+  },
+  "items": [
+    {
+      "shipmentNo": "0034043333301010000010101",
+      "sstatus": {
+        "title": "UnknownShipmentNumber",
+        "statusCode": 204,
+        "detail": "Unknown shipment number."
+      }
+    }
+  ]
+}
