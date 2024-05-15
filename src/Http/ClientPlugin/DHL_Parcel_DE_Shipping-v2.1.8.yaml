@@ -3,7 +3,7 @@ info:
   title: Parcel DE Shipping API (Post & Parcel Germany)
   description: >
     Note: This is the specification of the DPDHL Group Parcel DE Shipping API for Post & Parcel Germany. This REST web service allows business customers to create shipping labels on demand.
-  version: 2.1.7
+  version: 2.1.8
 servers:
   - url: https://api-eu.dhl.com/parcel/de/shipping/v2
     description: Productive Server
@@ -593,7 +593,7 @@ components:
             - PDF
         printFormat:
           type: string
-          description: The print format used
+          description: The print format used. Customs documents and cash on delivery documents can only be returned in format A4.
           example: 910-300-700
           enum:
             - A4-PT
@@ -606,7 +606,7 @@ components:
             - 910-300-600/610
             - 910-300-400/410
             - 100x70mm
-      description: 'Encoded document. All types of labels and documents. '
+      description: 'Encoded document. All types of labels and documents.'
     RequestStatus:
       type: object
       description: General status description for the attached response or response item.
@@ -743,7 +743,7 @@ components:
             - 910-300-710
             - 910-300-600/610
             - 910-300-400/410
-            - 100x70mm            
+            - 100x70mm              
     SingleManifestResponse:
       type: object
       properties:
@@ -831,9 +831,10 @@ components:
       properties:
         itemDescription:
           maxLength: 256
-          minLength: 0
+          minLength: 1
           type: string
           example: T-Shirt Boys size 164 yellow
+          description: A text that describes the commodity item. Only the first 50 characters of the description text is printed on the customs declaration form CN23.
         countryOfOrigin:
           $ref: '#/components/schemas/Country'
           description: A valid country code consisting of three characters according to ISO 3166-1 alpha-3.
@@ -971,6 +972,7 @@ components:
     CustomsDetails:
       required:
         - exportType
+        - postalCharges
         - items
       type: object
       properties:
@@ -1017,8 +1019,13 @@ components:
         hasElectronicExportNotification:
           type: boolean
           description: flag confirming whether electronic record for export was made
+        MRN:
+          type: string
+          maxLength: 18
+          example: "abcd1234567890"
         postalCharges:
           $ref: '#/components/schemas/Value'
+          description: Postal charges that have been charged to the recipient. The information must match the information on the invoice. Postal charges are added to the customs value which is the basis for the calculation of import duties. Since 1.1.2021 this information is mandatory according to requirements of the Universal Postal Union.
         officeOfOrigin:
           maxLength: 35
           minLength: 0
@@ -1035,7 +1042,7 @@ components:
           maxLength: 35
           example: "GB73282932000074" 
         items:
-          maxItems: 30
+          maxItems: 99
           minItems: 1
           type: array
           description: Commodity types in that package

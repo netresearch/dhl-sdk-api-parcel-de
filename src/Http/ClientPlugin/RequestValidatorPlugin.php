@@ -35,7 +35,7 @@ final class RequestValidatorPlugin implements Plugin
     private function validateRequest(RequestInterface $request): void
     {
         $validator = (new ValidatorBuilder())
-            ->fromYamlFile(__DIR__ . '/DHL_Parcel_DE_Shipping-v2.1.7.yaml')
+            ->fromYamlFile(__DIR__ . '/DHL_Parcel_DE_Shipping-v2.1.8.yaml')
             ->getRequestValidator();
 
         try {
