@@ -44,18 +44,18 @@ class ShipmentServiceTestExpectation
 
         $actual = self::sortValidationResult($result);
 
-        // assert that all sequence numbers of the request JSON are available in the SDK response
+        // assert that all request indexes of the request JSON are available in the SDK response
         $expected = array_keys($request['shipments']);
         Assert::assertEmpty(
             array_diff($expected, array_merge($actual['valid'], $actual['invalid'])),
-            'Sequence numbers of the response do not match.'
+            'Request index of the response do not match.'
         );
 
-        // assert that all sequence numbers of the response JSON are available in the SDK response
+        // assert that all request indexes of the response JSON are available in the SDK response
         $expected = array_keys($response['items']);
         Assert::assertEmpty(
             array_diff($expected, array_merge($actual['valid'], $actual['invalid'])),
-            'Sequence numbers of the response do not match.'
+            'Request index of the response do not match.'
         );
 
         // assert that the response status was properly mapped to the response object.
