@@ -53,7 +53,7 @@ class Shipment implements \JsonSerializable
      *                        - V01PAK: DHL PAKET
      *                        - V53WPAK: DHL PAKET International
      *                        - V54EPAK: DHL Europaket
-     *                        - V62WP: Warenpost
+     *                        - V62KP: DHL Kleinpaket
      *                        - V66WPI: Warenpost International
      * @param string $billingNumber 14 digit long number that identifies the contract the shipment is booked on.
      *                              Please note that in rare cases the last to characters can be letters.
