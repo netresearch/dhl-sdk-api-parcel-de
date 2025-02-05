@@ -452,7 +452,8 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $attestationNumber = null,
         bool $electronicExportNotification = null,
         string $sendersCustomsReference = null,
-        string $addresseesCustomsReference = null
+        string $addresseesCustomsReference = null,
+        string $masterReferenceNumber = null
     ): ShipmentOrderRequestBuilderInterface {
         if (!isset($this->data['customsDetails']['items'])) {
             $this->data['customsDetails']['items'] = [];
@@ -469,6 +470,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         $this->data['customsDetails']['electronicExportNotification'] = $electronicExportNotification;
         $this->data['customsDetails']['sendersCustomsReference'] = $sendersCustomsReference;
         $this->data['customsDetails']['addresseesCustomsReference'] = $addresseesCustomsReference;
+        $this->data['customsDetails']['MRN'] = $masterReferenceNumber;
 
         return $this;
     }
@@ -734,6 +736,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             $customs->setShipperCustomsRef($customsDetails['sendersCustomsReference']);
             $customs->setConsigneeCustomsRef($customsDetails['addresseesCustomsReference']);
             $customs->setHasElectronicExportNotification($customsDetails['electronicExportNotification'] ?? null);
+            $customs->setMRN($customsDetails['MRN'] ?? null);  // Use SDK method name
 
             $shipment->setCustoms($customs);
         }
