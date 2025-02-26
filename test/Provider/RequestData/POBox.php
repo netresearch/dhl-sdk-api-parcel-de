@@ -19,7 +19,7 @@ class POBox extends AbstractRequestData
         return [
             'requestIndex' => $this->getRequestIndex(),
             'billingNumber' => '33333333336201',
-            'productCode' => 'V62WP',
+            'productCode' => 'V62KP',
             'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
 
             'shipperCountryCode' => 'DEU',
