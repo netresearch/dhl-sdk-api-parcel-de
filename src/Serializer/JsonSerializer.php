@@ -32,11 +32,11 @@ class JsonSerializer
     public function encode(\JsonSerializable $request): string
     {
         // remove empty entries from serialized data (after all objects were converted to array)
-        $payload = (string) \json_encode($request, JSON_THROW_ON_ERROR);
+        $payload = \json_encode($request, JSON_THROW_ON_ERROR);
         $payload = (array) \json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
         $payload = $this->filterRecursive($payload);
 
-        return (string) \json_encode($payload, JSON_THROW_ON_ERROR);
+        return \json_encode($payload, JSON_THROW_ON_ERROR);
     }
 
     /**

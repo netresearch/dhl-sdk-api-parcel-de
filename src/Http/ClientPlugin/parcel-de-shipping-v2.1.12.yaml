@@ -3,13 +3,20 @@ info:
   title: Parcel DE Shipping API (Post & Parcel Germany)
   description: >
     Note: This is the specification of the DPDHL Group Parcel DE Shipping API for Post & Parcel Germany. This REST web service allows business customers to create shipping labels on demand.
-  version: 2.1.8
+  version: 2.1.12
 servers:
   - url: https://api-eu.dhl.com/parcel/de/shipping/v2
     description: Productive Server
   - url: https://api-sandbox.dhl.com/parcel/de/shipping/v2
     description: Sandbox Server
 
+tags:
+  - name: General
+    description: Get API version info
+  - name: Shipments and Labels
+    description: Order and retrieve shipment labels
+  - name: Manifests
+    description: Manifest shipments and retrieve daily manifest lists
 paths:
   /: 
     get:
@@ -19,6 +26,7 @@ paths:
       description: >
         Returns the current version of the API as major.minor.patch. Furthermore, it will also return more details (semantic version number, revision, environment) of the API layer.
       operationId: rootGet
+      security: []   # No auth
       responses:
         '200':
           description: OK
@@ -70,9 +78,6 @@ paths:
       summary: Retrieve daily manifest document
       description: Return the manifest document for the specific date (abbreviated ISO8601 format YYYY-MM-DD). If no date is provided, the manifest for today will be returned. The manifest PDF document will list the shipments for your EKP, separated by billing numbers. Potentially, the document is large and response time will reflect this. <br />Additionally, the response contains a mapping of billing numbers to sheet numbers of the manifest and a mapping of shipment numbers to sheet numbers.<br />The call can be repeated as often as needed. Should a date be provided which is too old or lies within the future, HTTP 400 is returned.
       operationId: getManifests 
-      security:
-        - ApiKey: [] 
-        - BasicAuth: []      
       parameters:
         - name: billingNumber
           in: query
@@ -130,22 +135,19 @@ paths:
       description: |-
         Shipments are normally ''closed out'' at a fixed time of the day (such as 6 pm, configured by EKP/account) for the date provided as shipDate in the create call. 
         <br />This call allows forcing the closeout for sets of shipments earlier. This will also override the original shipDate. Afterwards, the shipment cannot be changed and the shipment labels cannot be queried anymore (however they may remain cached for limited duration). 
-        Calling closeout repeatedly for the same shipments will result in HTTP 400 for the second call. HTTP 400 will also be returned if the automatic closeout happened prior to the call. It is however possible to add new shipments, they will be manifested as well and be part of the day's manifest. 
-        <br />Note on billing: The manifesting step has billing implications. Some products (Warenpost, Parcel International partially) are billed based on the shipment data available to DHL at the end of the day. All other products (including DHL Paket Standard) are billed based on production data. For more details, please contact your account representative. 
+        Once a shipment has been closed, then calling closeout for the same shipment will result in a warning. The same warning will also be returned if the automatic closeout happened prior to the call. It is however possible to add new shipments, they will be manifested as well and be part of the day's manifest. 
+        <br />Note on billing: The manifesting step has billing implications. Some products (Parcel International partially) are billed based on the shipment data available to DHL at the end of the day. All other products (including DHL Paket Standard) are billed based on production data. For more details, please contact your account representative. 
         
         #### Request
-        It's changing the status of the shipment, so parameters are provided in the body. 
-        * ''profile'' attribute - defines the user group profile. A user group is permitted to specific billing numbers. Shipments are only closed out if they belong to a billing number that the user group profile is entitled to use. This attribute is mandatory. Please use the standard user group profile ''STANDARD_GRUPPENPROFIL'' if no dedicated user group profile is available. 
-        * ''billingNumber'' attribute - defines the billing number for which shipments shall be closed out. If a billing number is set, then only the shipments of that billing number are closed out. In that case no list of specific shipment numbers needs to be passed. 
-        * ''shipmentNumbers'' attribute - lists the specific shipping numbers of the shipments that shall be closed out. 
-        If all shipments shall be closed, the query parameter ''all'' needs to be set to ''true''. In that case neither a billing number nor a list of shipment numbers need to be passed in the request body. 
+        It's changing the status of the shipment, so parameters are provided in the body or as query parameter. 
+        * ''profile'' attribute (request body parameter) - defines the user group profile. A user group is permitted to specific billing numbers. Shipments are only closed out if they belong to a billing number that the user group profile is entitled to use. This attribute is mandatory. Please use the standard user group profile ''STANDARD_GRUPPENPROFIL'' if no dedicated user group profile is available. 
+        * ''billingNumber'' attribute (query parameter) - defines the billing number for which shipments shall be closed out. If a billing number is set, then only the shipments of that billing number are closed out. In that case no list of specific shipment numbers needs to be passed. 
+        * ''shipmentNumbers'' attribute (request body parameter) - lists the specific shipping numbers of the shipments that shall be closed out. 
+        If all shipments shall be closed, the query parameter ''all'' needs to be set to ''true''. In that case neither a billing number nor a list of shipment numbers need to be passed in the request. 
         
         #### Response 
         * Closing status for each shipment
       operationId: manifestsPost
-      security:
-        - ApiKey: [] 
-        - BasicAuth: []
       parameters:
         - name: Accept-Language
           in: header
@@ -160,6 +162,7 @@ paths:
             type: boolean
             default: false
       requestBody:
+        description: Manifest request taking multiple input elements
         content:
           application/json:
             schema:
@@ -192,10 +195,7 @@ paths:
         Returns documents for existing shipment(s). The call accepts multiple shipment numbers and will provide sets of documents for those. The **format (PDF,ZPL)** and **method of delivery (URL, encoded, data)** can be selected for **all** shipments and labels in that call. You cannot chose one format and delivery method for one label and different for another label within the same call. You can also specify if you want regular labels, return labels, cod labels, or customsDoc. Any combination is possible.
  
         The call returns for each shipment number the status indicator and the selected labels and documents. If a label type (for example a cod label) does not exist for a shipment, it will not be returned. This is not an error. If you were sending multiple shipments, you will get an HTTP 207 response (multistatus) with detailed status for each shipment. Other standard HTTP response codes (200, 400, 401, 429, 500) are possible as well. Labels can be either provided as part of the response (base64 encoded for PDF, text for ZPL) or via URL link for view and download (PDF). Note that the format settings per query parameters apply to the shipping label. Retoure label paper type can be specified separately since a different printer may be used here. If requesting labels to be returned as URL for separate download, the URLs provided can be shared.
-      operationId: getOrder
-      security:
-        - ApiKey: [] 
-        - BasicAuth: []      
+      operationId: getOrder    
       parameters:
         - name: shipment
           in: query
@@ -316,9 +316,6 @@ paths:
         
         If this succeeds, actual shipment creation will also succeed. 
       operationId: createOrders
-      security:
-        - ApiKey: [] 
-        - BasicAuth: []     
       parameters:
         - name: Accept-Language
           in: header
@@ -438,6 +435,7 @@ paths:
             type: boolean
             default: true
       requestBody:
+        description: Shipment order request.
         content:
           application/json:
             schema:
@@ -449,6 +447,10 @@ paths:
                 $ref: '#/components/examples/DHLPaketInternational'
               DHLPaketInternationalWithCustoms:
                 $ref: '#/components/examples/DHLPaketInternationalWithCustoms'
+              DHLKleinpaket:
+                $ref: '#/components/examples/DHLKleinpaket'
+              WarenpostInternationalWithCustoms:
+                $ref: '#/components/examples/WarenpostInternationalWithCustoms'
         required: true
       responses:
         '200':
@@ -482,10 +484,7 @@ paths:
         - Shipments and Labels
       summary: Delete one or more shipments
       description: 'Delete one or more shipments created earlier. Deletion of shipments is only possible prior to them being manifested (closed out, ''Tagesabschluss''). The call will return HTTP 200 (single shipment) or 207 on success, with individual status elements for each shipment. Individual status elements are HTTP 200, 400. 400 will be returned when shipment does not exist (or was already deleted).'
-      operationId: ordersAccountDelete
-      security:
-        - ApiKey: [] 
-        - BasicAuth: []      
+      operationId: ordersAccountDelete     
       parameters:
         - name: Accept-Language
           in: header
@@ -618,9 +617,14 @@ components:
           type: string
           example: ok
         statusCode:
-          description: The status code of the response. Usually, but not necessarliy the HTTP status code.        
+          description: The status code of the response. Usually, but not necessarliy the HTTP status code. Same as attribut "status" but deprecated. Do not use. Will be removed in the next major version.        
           type: integer
           format: int32
+          example: 200
+        status:           
+          description: The status code of the response. Usually, but not necessarliy the HTTP status code.                   
+          type: integer           
+          format: int32           
           example: 200
         instance:
           type: string
@@ -637,9 +641,10 @@ components:
           $ref: '#/components/schemas/RequestStatus'
         items:
           type: array
-          description: For consistency, response is a single element array.
+          description: If the request contains a multi element array (e.g. multiple shipments), then the order of the items in the response corresponds to the order of the items in the request. For consistency, if the request contains only one item then the response contains a single element array.
           example:
             - shipmentNo: 340434310428091700
+              routingCode: 40327653113+99000943058020
               sstatus:
                 title: OK
                 status: 200
@@ -657,6 +662,11 @@ components:
           maxLength: 50
           minLength: 0
           type: string
+        routingCode:
+          maxLength: 35
+          minLength: 0
+          type: string
+          description: Routing code of the consignee address
         returnShipmentNo:
           maxLength: 50
           minLength: 0
@@ -683,6 +693,7 @@ components:
       description: Response for a single shipment containing status, numbers and labels
       example:
         - shipmentNo: 340434310428091700
+          routingCode: 40327653113+99000943058020
           sstatus:
             title: OK
             status: 200
@@ -837,7 +848,6 @@ components:
           description: A text that describes the commodity item. Only the first 50 characters of the description text is printed on the customs declaration form CN23.
         countryOfOrigin:
           $ref: '#/components/schemas/Country'
-          description: A valid country code consisting of three characters according to ISO 3166-1 alpha-3.
         hsCode:
           maxLength: 11
           minLength: 6
@@ -902,7 +912,7 @@ components:
           maxLength: 35
           minLength: 1
           type: string
-          description: An optional, additional line of address. It's only usable for a few countries, e.g. Belgium. It is positioned below name3 on the label.
+          description: An optional, additional line of address. It is printed on the shipping label for international shipments to the following countries only BEL, CZE, NLD. It is positioned below name3 on the label.
           example: PO Box, bpack 24/7
         addressStreet:
           maxLength: 50
@@ -920,13 +930,13 @@ components:
           maxLength: 60
           minLength: 1
           type: string
-          description: Additional information that is positioned either behind or below addressStreet on the label. If it is printed and where exactly depends on the country.
+          description: Additional information that is positioned either behind or below addressStreet on international shipment labels. Where exactly it is printed on the label depends on the country.                                                                                                                                                                                                   
           example: 3. Etage
         additionalAddressInformation2:
           maxLength: 60
           minLength: 1
           type: string
-          description: Additional information that is positioned either behind or below addressStreet on the label. If it is printed and where exactly depends on the country.
+          description: Additional information that is positioned either behind or below addressStreet on international shipment labels. It is printed on shipping labels to the following countries only AUT, CHN, DNK, GBR, HRV, LTU, PRT, ROU, RUS. Where exactly it is printed on the label depends on the country.
           example: Apartment 12
         postalCode:
           maxLength: 10
@@ -948,8 +958,7 @@ components:
           description: State, province or territory. For the USA please use the official regional ISO-Codes, e.g. US-AL.
           example: NRW
         country:
-          $ref: '#/components/schemas/Country'
-          description: A valid country code consisting of three characters according to ISO 3166-1 alpha-3.          
+          $ref: '#/components/schemas/Country'      
         contactName:
           maxLength: 80
           minLength: 3
@@ -1024,8 +1033,9 @@ components:
           maxLength: 18
           example: "abcd1234567890"
         postalCharges:
-          $ref: '#/components/schemas/Value'
-          description: Postal charges that have been charged to the recipient. The information must match the information on the invoice. Postal charges are added to the customs value which is the basis for the calculation of import duties. Since 1.1.2021 this information is mandatory according to requirements of the Universal Postal Union.
+          allOf:
+            - $ref: '#/components/schemas/Value'
+          description: Postal charges that have been charged to the recipient. The information must match the information on the invoice. Postal charges are added to the customs value which is the basis for the calculation of import duties. Since 1.1.2021 this information is mandatory according to requirements of the Universal Postal Union. The currency of the postal charges is used throughout the customs declaration form. The currency details of the individual goods items are overwritten by the currency details of the postal charges.
         officeOfOrigin:
           maxLength: 35
           minLength: 0
@@ -1119,7 +1129,6 @@ components:
           example: Berlin
         country:
           $ref: '#/components/schemas/Country'
-          description: A valid country code consisting of three characters according to ISO 3166-1 alpha-3.
         postalCode:
           maxLength: 10
           minLength: 3
@@ -1167,7 +1176,6 @@ components:
           example: Berlin
         country:
           $ref: '#/components/schemas/Country'
-          description: A valid country code consisting of three characters according to ISO 3166-1 alpha-3.
         postalCode:
           maxLength: 10
           minLength: 3
@@ -1217,7 +1225,6 @@ components:
             example: Berlin
           country:
             $ref: '#/components/schemas/Country'
-            description: Country of the P.O. Box (Postfach) location. A valid country code consisting of three characters according to ISO 3166-1 alpha-3.
           postalCode:
             maxLength: 10
             minLength: 3
@@ -1236,7 +1243,8 @@ components:
             * V01PAK: DHL PAKET;
             * V53WPAK: DHL PAKET International;
             * V54EPAK: DHL Europaket;
-            * V62WP: Warenpost;
+            * V62WP: Warenpost (will be replaced by DHL Kleinpaket from 1.1.2025);
+            * V62KP: DHL Kleinpaket;
             * V66WPI: Warenpost International
           example: V01PAK
         billingNumber:
@@ -1355,7 +1363,6 @@ components:
           example: Berlin
         country:
           $ref: '#/components/schemas/Country'
-          description: Shipper address country
         contactName:
           maxLength: 80
           minLength: 3
@@ -1992,6 +1999,8 @@ components:
       description: Weight of item or shipment. Both uom and value are required.
   examples:
     DHLPaket:
+      summary: DHL Paket (V01PAK) 
+      description: Order example for DHL Paket (V01PAK)
       value:
        profile: STANDARD_GRUPPENPROFIL
        shipments:
@@ -2001,7 +2010,6 @@ components:
           shipper:
               name1: My Online Shop GmbH
               addressStreet: Sträßchensweg 10
-              additionalAddressInformation1: 2. Etage
               postalCode: "53113"
               city: Bonn
               country: DEU
@@ -2010,7 +2018,6 @@ components:
           consignee:
               name1: Maria Musterfrau
               addressStreet: Kurt-Schumacher-Str. 20
-              additionalAddressInformation1: Apartment 107
               postalCode: "53113"
               city: Bonn
               country: DEU
@@ -2026,6 +2033,8 @@ components:
                 uom: g
                 value: 500
     DHLPaketInternational:
+      summary: DHL Paket International (V53WPAK)
+      description: Order example for DHL Paket International (V53WPAK)
       value:
        profile: STANDARD_GRUPPENPROFIL
        shipments:
@@ -2035,7 +2044,6 @@ components:
           shipper:
               name1: My Online Shop GmbH
               addressStreet: Sträßchensweg 10
-              additionalAddressInformation1: 2. Etage
               postalCode: "53113"
               city: Bonn
               country: DEU
@@ -2045,6 +2053,8 @@ components:
               name1: Jan Vermeer
               addressStreet: Museumstraat
               addressHouse: "1"
+              additionalAddressInformation1: 2. Floor
+                                                     
               postalCode: "1071 AA"
               city: Amsterdam
               country: NLD
@@ -2060,6 +2070,8 @@ components:
                 uom: g
                 value: 500
     DHLPaketInternationalWithCustoms:
+      summary: DHL Paket International (V53WPAK) with customs
+      description: Order example for DHL Paket International (V53WPAK) with customs
       value:
        profile: STANDARD_GRUPPENPROFIL
        shipments:
@@ -2069,7 +2081,6 @@ components:
           shipper:
               name1: My Online Shop GmbH
               addressStreet: Sträßchensweg 10
-              additionalAddressInformation1: 2. Etage
               postalCode: "53113"
               city: Bonn
               country: DEU
@@ -2078,6 +2089,8 @@ components:
           consignee:
               name1: Joe Black
               addressStreet: 10 Downing Street
+              additionalAddressInformation1: 2. Floor
+                                                     
               postalCode: "SW1A 1AA"
               city: London
               country: GBR
@@ -2110,6 +2123,94 @@ components:
                 value: 400
           services:
             endorsement: RETURN
+    DHLKleinpaket:
+        summary: DHL Kleinpaket (V62KP)
+        description: Order example for DHL Kleinpaket (V62KP)
+        value:
+            profile: STANDARD_GRUPPENPROFIL
+            shipments:
+            - product: V62KP
+              billingNumber: "33333333336201"
+              refNo: Order No. 1234
+              shipper:
+                name1: My Online Shop GmbH
+                addressStreet: Sträßchensweg 10
+                postalCode: '53113'
+                city: Bonn
+                country: DEU
+                email: max@mustermann.de
+                phone: +49 123456789
+              consignee:
+                name1: Maria Musterfrau
+                addressStreet: Kurt-Schumacher-Str. 20
+                postalCode: "53113"
+                city: Bonn
+                country: DEU
+                email: maria@musterfrau.de
+                phone: +49 987654321
+              details:
+                dim:
+                  uom: cm
+                  height: 1
+                  length: 10
+                  width: 15
+                weight:
+                  uom: g
+                  value: 500
+    WarenpostInternationalWithCustoms:
+        summary: Warenpost International (V66WPI) with customs
+        description: Order example for Warenpost International (V66WPI) with customs
+        value: 
+            profile: STANDARD_GRUPPENPROFIL
+            shipments:
+            - product: V66WPI
+              billingNumber: "33333333336601"
+              refNo: Order No. 1234
+              shipper:
+                name1: My Online Shop GmbH
+                addressStreet: Sträßchensweg 10
+                postalCode: "53113"
+                city: Bonn
+                country: DEU
+                email: max@mustermann.de
+                phone: "+49 123456789"
+              consignee:
+                name1: Joe Black
+                addressStreet: 42 Street
+                additionalAddressInformation1: 2. Floor
+                                                       
+                postalCode: SW1A 1AA
+                city: London
+                country: GBR
+                email: joe@black.uk
+                phone: +44 123456789
+              details:
+                dim:
+                  uom: cm
+                  height: 1
+                  length: 10
+                  width: 15
+                weight:
+                  uom: g
+                  value: 500
+              customs:
+                exportType: PRESENT
+                postalCharges:
+                  currency: EUR
+                  value: 1
+                items:
+                - itemDescription: Item 1
+                  packagedQuantity: 1
+                  hsCode: 123456
+                  countryOfOrigin: FRA
+                  itemValue:
+                    currency: EUR
+                    value: 10
+                  itemWeight:
+                    uom: g
+                    value: 300
+              services:
+                endorsement: RETURN
   securitySchemes:
     BasicAuth:
       type: http
@@ -2121,6 +2222,13 @@ components:
         portal](https://developer.dhl.com).
       name: dhl-api-key
       in: header
+    OAuth2:
+      type: oauth2
+      description: See https://developer.dhl.com/api-reference/authentication-api-post-parcel-germany. For the POST call to get a token, provide all parameters in the request body. Refer to the above link for details, or to the RFC describing OAuth2 Password Grant. After having obtained the access token, use this as Bearer token in the HTTP authorization header. 
+      flows: 
+        password: 
+          tokenUrl: /parcel/de/account/auth/ropc/v1/token
+          scopes: {}
   responses:
       BadRequest:
         description: Bad Request
@@ -2139,13 +2247,7 @@ components:
         content:
           application/problem+json:
             schema:
-              $ref: '#/components/schemas/RequestStatus'
-      Forbidden:        
-        description: Forbidden
-        content:
-          application/problem+json:
-            schema:
-              $ref: '#/components/schemas/RequestStatus'
+              $ref: '#/components/schemas/RequestStatus'                                                 
       TooManyRequests:
         description: Too Many Requests
         content:
@@ -2158,3 +2260,7 @@ components:
           application/problem+json:
             schema:
               $ref: '#/components/schemas/RequestStatus'
+security:
+    - ApiKey: []
+    - BasicAuth: []
+    - OAuth2: []
