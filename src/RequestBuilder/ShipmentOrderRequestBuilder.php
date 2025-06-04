@@ -48,7 +48,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
     public function setShipperAccount(
         string $billingNumber,
-        string $returnBillingNumber = null
+        ?string $returnBillingNumber = null
     ): ShipmentOrderRequestBuilderInterface {
         $this->data['shipper']['billingNumber'] = $billingNumber;
         $this->data['shipper']['returnBillingNumber'] = $returnBillingNumber;
@@ -63,13 +63,13 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $city,
         string $streetName,
         string $streetNumber = '',
-        string $name = null,
-        string $nameAddition = null,
-        string $email = null,
-        string $phone = null,
-        string $contactPerson = null,
-        string $state = null,
-        string $dispatchingInformation = null,
+        ?string $name = null,
+        ?string $nameAddition = null,
+        ?string $email = null,
+        ?string $phone = null,
+        ?string $contactPerson = null,
+        ?string $state = null,
+        ?string $dispatchingInformation = null,
         array $addressAddition = []
     ): ShipmentOrderRequestBuilderInterface {
         $this->data['shipper']['address']['company'] = $company;
@@ -91,11 +91,11 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     }
 
     public function setShipperBankData(
-        string $accountOwner = null,
-        string $bankName = null,
-        string $iban = null,
-        string $bic = null,
-        string $accountReference = null,
+        ?string $accountOwner = null,
+        ?string $bankName = null,
+        ?string $iban = null,
+        ?string $bic = null,
+        ?string $accountReference = null,
         array $notes = []
     ): ShipmentOrderRequestBuilderInterface {
         $this->data['shipper']['bankData']['owner'] = $accountOwner;
@@ -115,13 +115,13 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $city,
         string $streetName,
         string $streetNumber = '',
-        string $name = null,
-        string $nameAddition = null,
-        string $email = null,
-        string $phone = null,
-        string $contactPerson = null,
-        string $state = null,
-        string $dispatchingInformation = null,
+        ?string $name = null,
+        ?string $nameAddition = null,
+        ?string $email = null,
+        ?string $phone = null,
+        ?string $contactPerson = null,
+        ?string $state = null,
+        ?string $dispatchingInformation = null,
         array $addressAddition = []
     ): ShipmentOrderRequestBuilderInterface {
         $this->data['return']['address']['company'] = $company;
@@ -149,13 +149,13 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $city,
         string $streetName,
         string $streetNumber = '',
-        string $company = null,
-        string $nameAddition = null,
-        string $email = null,
-        string $phone = null,
-        string $contactPerson = null,
-        string $state = null,
-        string $dispatchingInformation = null,
+        ?string $company = null,
+        ?string $nameAddition = null,
+        ?string $email = null,
+        ?string $phone = null,
+        ?string $contactPerson = null,
+        ?string $state = null,
+        ?string $dispatchingInformation = null,
         array $addressAddition = []
     ): ShipmentOrderRequestBuilderInterface {
         $this->data['recipient']['address']['name'] = $name;
@@ -179,9 +179,9 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
     public function setShipmentDetails(
         string $productCode,
         \DateTimeInterface $shipmentDate,
-        string $shipmentReference = null,
-        string $returnReference = null,
-        string $costCentre = null
+        ?string $shipmentReference = null,
+        ?string $returnReference = null,
+        ?string $costCentre = null
     ): ShipmentOrderRequestBuilderInterface {
         $timezone = new \DateTimeZone('Europe/Berlin');
 
@@ -238,8 +238,8 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $countryCode,
         string $postalCode,
         string $city,
-        string $state = null,
-        string $country = null
+        ?string $state = null,
+        ?string $country = null
     ): ShipmentOrderRequestBuilderInterface {
         $this->data['recipient']['packstation']['name'] = $recipientName;
         $this->data['recipient']['packstation']['postNumber'] = $recipientPostNumber;
@@ -259,10 +259,10 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $countryCode,
         string $postalCode,
         string $city,
-        string $email = null,
-        string $postNumber = null,
-        string $state = null,
-        string $country = null
+        ?string $email = null,
+        ?string $postNumber = null,
+        ?string $state = null,
+        ?string $country = null
     ): ShipmentOrderRequestBuilderInterface {
         $this->data['recipient']['postfiliale']['name'] = $recipientName;
         $this->data['recipient']['postfiliale']['number'] = $postfilialNumber;
@@ -419,7 +419,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
-    public function setParcelOutletRouting(string $email = null): ShipmentOrderRequestBuilderInterface
+    public function setParcelOutletRouting(?string $email = null): ShipmentOrderRequestBuilderInterface
     {
         $this->data['services']['parcelOutletRouting']['active'] = true;
         $this->data['services']['parcelOutletRouting']['details'] = $email;
@@ -445,15 +445,15 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $exportType,
         string $placeOfCommital,
         float $additionalFee,
-        string $exportTypeDescription = null,
-        string $termsOfTrade = null,
-        string $invoiceNumber = null,
-        string $permitNumber = null,
-        string $attestationNumber = null,
-        bool $electronicExportNotification = null,
-        string $sendersCustomsReference = null,
-        string $addresseesCustomsReference = null,
-        string $masterReferenceNumber = null
+        ?string $exportTypeDescription = null,
+        ?string $termsOfTrade = null,
+        ?string $invoiceNumber = null,
+        ?string $permitNumber = null,
+        ?string $attestationNumber = null,
+        ?bool $electronicExportNotification = null,
+        ?string $sendersCustomsReference = null,
+        ?string $addresseesCustomsReference = null,
+        ?string $masterReferenceNumber = null
     ): ShipmentOrderRequestBuilderInterface {
         if (!isset($this->data['customsDetails']['items'])) {
             $this->data['customsDetails']['items'] = [];
