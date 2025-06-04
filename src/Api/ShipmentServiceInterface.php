@@ -33,7 +33,6 @@ interface ShipmentServiceInterface
      * ValidateShipmentOrder is the operation call used to validate shipments before booking label and tracking number.
      *
      * @param \stdClass[] $shipmentOrders
-     * @param OrderConfigurationInterface|null $configuration
      *
      * @return ValidationResultInterface[]
      *
@@ -41,13 +40,12 @@ interface ShipmentServiceInterface
      * @throws DetailedServiceException
      * @throws ServiceException
      */
-    public function validateShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array;
+    public function validateShipments(array $shipmentOrders, ?OrderConfigurationInterface $configuration = null): array;
 
     /**
      * CreateShipmentOrder is the operation call used to generate shipments with the relevant DHL Paket labels.
      *
      * @param \stdClass[] $shipmentOrders
-     * @param OrderConfigurationInterface|null $configuration
      *
      * @return ShipmentInterface[]
      *
@@ -55,7 +53,7 @@ interface ShipmentServiceInterface
      * @throws DetailedServiceException
      * @throws ServiceException
      */
-    public function createShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array;
+    public function createShipments(array $shipmentOrders, ?OrderConfigurationInterface $configuration = null): array;
 
     /**
      * DeleteShipmentOrder is the operation call used to cancel created shipments.

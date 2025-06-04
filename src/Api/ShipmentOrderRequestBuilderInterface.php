@@ -52,7 +52,7 @@ interface ShipmentOrderRequestBuilderInterface
      */
     public function setShipperAccount(
         string $billingNumber,
-        string $returnBillingNumber = null
+        ?string $returnBillingNumber = null
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
@@ -62,13 +62,6 @@ interface ShipmentOrderRequestBuilderInterface
      *
      * @see setShipperReference
      *
-     * @param string|null $name
-     * @param string|null $nameAddition
-     * @param string|null $email
-     * @param string|null $phone
-     * @param string|null $contactPerson
-     * @param string|null $state
-     * @param string|null $dispatchingInformation
      * @param string[] $addressAddition
      */
     public function setShipperAddress(
@@ -78,13 +71,13 @@ interface ShipmentOrderRequestBuilderInterface
         string $city,
         string $streetName,
         string $streetNumber = '',
-        string $name = null,
-        string $nameAddition = null,
-        string $email = null,
-        string $phone = null,
-        string $contactPerson = null,
-        string $state = null,
-        string $dispatchingInformation = null,
+        ?string $name = null,
+        ?string $nameAddition = null,
+        ?string $email = null,
+        ?string $phone = null,
+        ?string $contactPerson = null,
+        ?string $state = null,
+        ?string $dispatchingInformation = null,
         array $addressAddition = []
     ): ShipmentOrderRequestBuilderInterface;
 
@@ -96,19 +89,14 @@ interface ShipmentOrderRequestBuilderInterface
      * If defaults are configured in the portal, then only the individual notes
      * (reason for payment) fields may be set per shipment order.
      *
-     * @param string|null $accountOwner
-     * @param string|null $bankName
-     * @param string|null $iban
-     * @param string|null $bic
-     * @param string|null $accountReference
      * @param string[] $notes
      */
     public function setShipperBankData(
-        string $accountOwner = null,
-        string $bankName = null,
-        string $iban = null,
-        string $bic = null,
-        string $accountReference = null,
+        ?string $accountOwner = null,
+        ?string $bankName = null,
+        ?string $iban = null,
+        ?string $bic = null,
+        ?string $accountReference = null,
         array $notes = []
     ): ShipmentOrderRequestBuilderInterface;
 
@@ -117,13 +105,6 @@ interface ShipmentOrderRequestBuilderInterface
      *
      * Return address will be discarded if no return billing number is given.
      *
-     * @param string|null $name
-     * @param string|null $nameAddition
-     * @param string|null $email
-     * @param string|null $phone
-     * @param string|null $contactPerson
-     * @param string|null $state
-     * @param string|null $dispatchingInformation
      * @param string[] $addressAddition
      */
     public function setReturnAddress(
@@ -133,26 +114,19 @@ interface ShipmentOrderRequestBuilderInterface
         string $city,
         string $streetName,
         string $streetNumber = '',
-        string $name = null,
-        string $nameAddition = null,
-        string $email = null,
-        string $phone = null,
-        string $contactPerson = null,
-        string $state = null,
-        string $dispatchingInformation = null,
+        ?string $name = null,
+        ?string $nameAddition = null,
+        ?string $email = null,
+        ?string $phone = null,
+        ?string $contactPerson = null,
+        ?string $state = null,
+        ?string $dispatchingInformation = null,
         array $addressAddition = []
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Set consignee address for a shipment (required).
      *
-     * @param string|null $company
-     * @param string|null $nameAddition
-     * @param string|null $email
-     * @param string|null $phone
-     * @param string|null $contactPerson
-     * @param string|null $state
-     * @param string|null $dispatchingInformation
      * @param string[] $addressAddition
      */
     public function setRecipientAddress(
@@ -162,13 +136,13 @@ interface ShipmentOrderRequestBuilderInterface
         string $city,
         string $streetName,
         string $streetNumber = '',
-        string $company = null,
-        string $nameAddition = null,
-        string $email = null,
-        string $phone = null,
-        string $contactPerson = null,
-        string $state = null,
-        string $dispatchingInformation = null,
+        ?string $company = null,
+        ?string $nameAddition = null,
+        ?string $email = null,
+        ?string $phone = null,
+        ?string $contactPerson = null,
+        ?string $state = null,
+        ?string $dispatchingInformation = null,
         array $addressAddition = []
     ): ShipmentOrderRequestBuilderInterface;
 
@@ -188,16 +162,13 @@ interface ShipmentOrderRequestBuilderInterface
      *
      * @param string $productCode Product to be ordered.
      * @param \DateTimeInterface $shipmentDate.
-     * @param string|null $shipmentReference
-     * @param string|null $returnReference
-     * @param string|null $costCentre
      */
     public function setShipmentDetails(
         string $productCode,
         \DateTimeInterface $shipmentDate,
-        string $shipmentReference = null,
-        string $returnReference = null,
-        string $costCentre = null
+        ?string $shipmentReference = null,
+        ?string $returnReference = null,
+        ?string $costCentre = null
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
@@ -236,9 +207,6 @@ interface ShipmentOrderRequestBuilderInterface
      * Choose Packstation delivery.
      *
      * Post number of the receiver is required.
-     *
-     * @param string|null $state
-     * @param string|null $country
      */
     public function setPackstation(
         string $recipientName,
@@ -247,8 +215,8 @@ interface ShipmentOrderRequestBuilderInterface
         string $countryCode,
         string $postalCode,
         string $city,
-        string $state = null,
-        string $country = null
+        ?string $state = null,
+        ?string $country = null
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
@@ -259,8 +227,6 @@ interface ShipmentOrderRequestBuilderInterface
      * @todo(nr): DHLGW-1355 add email argument
      *
      * @param string|null $postNumber If not set, receiver email will be used.
-     * @param string|null $state
-     * @param string|null $country
      */
     public function setPostfiliale(
         string $recipientName,
@@ -268,10 +234,10 @@ interface ShipmentOrderRequestBuilderInterface
         string $countryCode,
         string $postalCode,
         string $city,
-        string $email = null,
-        string $postNumber = null,
-        string $state = null,
-        string $country = null
+        ?string $email = null,
+        ?string $postNumber = null,
+        ?string $state = null,
+        ?string $country = null
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
@@ -407,7 +373,7 @@ interface ShipmentOrderRequestBuilderInterface
      *
      * @param string|null $email If not set, receiver email will be used.
      */
-    public function setParcelOutletRouting(string $email = null): ShipmentOrderRequestBuilderInterface;
+    public function setParcelOutletRouting(?string $email = null): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Book the "Postal Delivery Duty Paid" (PDDP) service.
@@ -434,30 +400,20 @@ interface ShipmentOrderRequestBuilderInterface
      * @see ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DAP
      * @see ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DDX
      * @see ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_CPT
-     *
-     * @param string|null $exportTypeDescription
-     * @param string|null $termsOfTrade
-     * @param string|null $invoiceNumber
-     * @param string|null $permitNumber
-     * @param string|null $attestationNumber
-     * @param bool|null $electronicExportNotification
-     * @param string|null $sendersCustomsReference
-     * @param string|null $addresseesCustomsReference
-     * @param string|null $masterReferenceNumber
      */
     public function setCustomsDetails(
         string $exportType,
         string $placeOfCommital,
         float $additionalFee,
-        string $exportTypeDescription = null,
-        string $termsOfTrade = null,
-        string $invoiceNumber = null,
-        string $permitNumber = null,
-        string $attestationNumber = null,
-        bool $electronicExportNotification = null,
-        string $sendersCustomsReference = null,
-        string $addresseesCustomsReference = null,
-        string $masterReferenceNumber = null
+        ?string $exportTypeDescription = null,
+        ?string $termsOfTrade = null,
+        ?string $invoiceNumber = null,
+        ?string $permitNumber = null,
+        ?string $attestationNumber = null,
+        ?bool $electronicExportNotification = null,
+        ?string $sendersCustomsReference = null,
+        ?string $addresseesCustomsReference = null,
+        ?string $masterReferenceNumber = null
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
