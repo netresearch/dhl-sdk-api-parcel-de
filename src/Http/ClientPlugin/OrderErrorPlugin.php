@@ -150,8 +150,6 @@ final class OrderErrorPlugin implements Plugin
      *
      * @param callable(RequestInterface): Promise $next
      * @param callable(RequestInterface): Promise $first
-     *
-     * @return Promise
      */
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
