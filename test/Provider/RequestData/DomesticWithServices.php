@@ -103,6 +103,8 @@ class DomesticWithServices extends AbstractRequestData
 //                'identDob' => '1970-01-01',
 //                'identMinAge' => '21',
             'parcelOutletRouting' => 'route@example.com',
+            'goGreenPlus' => true,
+            'returnShipmentGoGreenPlus' => true,
         ];
     }
 
@@ -230,5 +232,11 @@ class DomesticWithServices extends AbstractRequestData
 //            $data['identMinAge']
 //        );
         $builder->setParcelOutletRouting($data['parcelOutletRouting']);
+        if (!empty($data['goGreenPlus'])) {
+            $builder->setGoGreenPlus();
+        }
+        if (!empty($data['returnShipmentGoGreenPlus'])) {
+            $builder->setReturnShipmentGoGreenPlus();
+        }
     }
 }
