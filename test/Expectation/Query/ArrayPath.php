@@ -166,6 +166,8 @@ class ArrayPath
     final public const PATH_SERVICE_IDENT_DOB = 'services/identCheck/dateOfBirth';
     final public const PATH_SERVICE_IDENT_MINAGE = 'services/identCheck/minimumAge';
     final public const PATH_SERVICE_ROUTING = 'services/parcelOutletRouting';
+    final public const PATH_SERVICE_GOGREEN_PLUS = 'services/goGreenPlus';
+    final public const PATH_SERVICE_RETURN_GOGREEN_PLUS = 'services/returnShipmentGoGreenPlus';
 
     public static function get(string $attribute): string
     {
@@ -323,6 +325,8 @@ class ArrayPath
             'identDob' => self::PATH_SERVICE_IDENT_DOB,
             'identMinAge' => self::PATH_SERVICE_IDENT_MINAGE,
             'parcelOutletRouting' => self::PATH_SERVICE_ROUTING,
+            'goGreenPlus' => self::PATH_SERVICE_GOGREEN_PLUS,
+            'returnShipmentGoGreenPlus' => self::PATH_SERVICE_RETURN_GOGREEN_PLUS,
         ];
 
         return $map[$attribute];

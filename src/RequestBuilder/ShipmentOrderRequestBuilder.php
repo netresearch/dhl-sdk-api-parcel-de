@@ -499,6 +499,20 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         return $this;
     }
 
+    public function setGoGreenPlus(): ShipmentOrderRequestBuilderInterface
+    {
+        $this->data['services']['goGreenPlus'] = true;
+
+        return $this;
+    }
+
+    public function setReturnShipmentGoGreenPlus(): ShipmentOrderRequestBuilderInterface
+    {
+        $this->data['services']['returnShipmentGoGreenPlus'] = true;
+
+        return $this;
+    }
+
     public function create(): object
     {
         if (!isset($this->data['shipper']['reference']) && !isset($this->data['shipper']['address'])) {
@@ -630,6 +644,8 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             $services->setPremium($this->data['services']['premium'] ?? null);
             $services->setBulkyGoods($this->data['services']['bulkyGoods'] ?? null);
             $services->setPostalDeliveryDutyPaid($this->data['services']['pddp'] ?? null);
+            $services->setGoGreenPlus($this->data['services']['goGreenPlus'] ?? null);
+            $services->setReturnShipmentGoGreenPlus($this->data['services']['returnShipmentGoGreenPlus'] ?? null);
 
             match ($this->data['services']['endorsement'] ?? false) {
                 ShipmentOrderRequestBuilderInterface::ENDORSEMENT_TYPE_IMMEDIATE => $services->setEndorsement('RETURN'),

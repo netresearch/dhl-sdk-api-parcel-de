@@ -432,6 +432,16 @@ interface ShipmentOrderRequestBuilderInterface
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
+     * Book "GoGreen Plus" service for climate-neutral shipping.
+     */
+    public function setGoGreenPlus(): ShipmentOrderRequestBuilderInterface;
+
+    /**
+     * Book "GoGreen Plus" service for return shipments.
+     */
+    public function setReturnShipmentGoGreenPlus(): ShipmentOrderRequestBuilderInterface;
+
+    /**
      * Create the shipment request and reset the builder data.
      *
      * @throws RequestValidatorException
