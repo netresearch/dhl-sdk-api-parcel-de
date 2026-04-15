@@ -18,6 +18,7 @@ use Dhl\Sdk\ParcelDe\Shipping\Service\ShipmentService\OrderConfiguration;
 use Dhl\Sdk\ParcelDe\Shipping\Test\Expectation\RequestTypeExpectation as Expectation;
 use Dhl\Sdk\ParcelDe\Shipping\Test\Provider\Http\Credentials\AuthenticationStorageProvider;
 use Dhl\Sdk\ParcelDe\Shipping\Test\Provider\RequestData\AbstractRequestData;
+use Dhl\Sdk\ParcelDe\Shipping\Test\Provider\RequestData\CrossBorderWithoutPostalCode;
 use Dhl\Sdk\ParcelDe\Shipping\Test\Provider\RequestData\CrossBorderWithServices;
 use Dhl\Sdk\ParcelDe\Shipping\Test\Provider\RequestData\Domestic;
 use Dhl\Sdk\ParcelDe\Shipping\Test\Provider\RequestData\DomesticWithServices;
@@ -39,12 +40,11 @@ class RequestBuilderTest extends TestCase
     {
         $response = __DIR__ . '/../../Provider/_files/createshipment/singleShipmentSuccess.json';
         $authStorage = AuthenticationStorageProvider::authSuccess();
-        $requestData = [new Domestic()];
         // response does not matter really, just to make it not fail
         $responseBody = \file_get_contents($response);
 
         return [
-            'label request' => [$authStorage, $requestData, $responseBody],
+            'label request' => [$authStorage, [new Domestic()], $responseBody],
         ];
     }
 
@@ -119,6 +119,48 @@ class RequestBuilderTest extends TestCase
         $requestBody = (string) $lastRequest->getBody();
 
         Expectation::assertJsonContentsAvailable($requestValues, $requestBody);
+    }
+
+    /**
+     * Assert that empty postalCode is stripped from serialized JSON (not sent to DHL API).
+     *
+     * @see https://github.com/netresearch/dhl-sdk-api-parcel-de/issues/11
+     * @throws ServiceException
+     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function emptyPostalCodeIsOmittedFromRequest(): void
+    {
+        $httpClient = new Client();
+        $logger = new NullLogger();
+
+        $responseFactory = Psr17FactoryDiscovery::findResponseFactory();
+        $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
+
+        $response = __DIR__ . '/../../Provider/_files/createshipment/singleShipmentSuccess.json';
+        $responseBody = \file_get_contents($response);
+
+        $labelResponse = $responseFactory
+            ->createResponse(200, 'OK')
+            ->withBody($streamFactory->createStream($responseBody));
+
+        $httpClient->setDefaultResponse($labelResponse);
+
+        $authStorage = AuthenticationStorageProvider::authSuccess();
+        $serviceFactory = new HttpServiceFactory($httpClient, Client::class);
+        $service = $serviceFactory->createShipmentService($authStorage, $logger, true);
+
+        $requestBuilder = new ShipmentOrderRequestBuilder();
+        $requestData = new CrossBorderWithoutPostalCode();
+        $shipmentOrders = [$requestData->createShipmentOrder($requestBuilder)];
+
+        $service->createShipments($shipmentOrders, new OrderConfiguration());
+
+        $lastRequest = $httpClient->getLastRequest();
+        $requestBody = json_decode((string) $lastRequest->getBody(), true, 512, JSON_THROW_ON_ERROR);
+
+        $shipment = $requestBody['shipments'][0];
+        self::assertArrayNotHasKey('postalCode', $shipment['consignee'], 'Empty postalCode must be omitted from API request');
+        self::assertArrayHasKey('postalCode', $shipment['shipper'], 'Shipper postalCode must still be present');
     }
 
     /**
