@@ -48,7 +48,7 @@ class JsonSerializer
     private function filterRecursive(array $element): array
     {
         // Filter null and empty strings
-        $filterFunction = static fn($entry): bool => ($entry !== null) && ($entry !== '') && ($entry !== []);
+        $filterFunction = static fn($entry): bool => !in_array($entry, [null, '', []], true);
 
         foreach ($element as &$value) {
             if (\is_array($value)) {
