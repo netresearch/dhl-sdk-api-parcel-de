@@ -27,10 +27,6 @@ class ShipmentResponse
      */
     public function getItems(): array
     {
-        if ($this->items === []) {
-            return [];
-        }
-
         return $this->items;
     }
 }
