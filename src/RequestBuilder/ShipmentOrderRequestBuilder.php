@@ -453,7 +453,8 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         ?bool $electronicExportNotification = null,
         ?string $sendersCustomsReference = null,
         ?string $addresseesCustomsReference = null,
-        ?string $masterReferenceNumber = null
+        ?string $masterReferenceNumber = null,
+        string $currency = 'EUR'
     ): ShipmentOrderRequestBuilderInterface {
         if (!isset($this->data['customsDetails']['items'])) {
             $this->data['customsDetails']['items'] = [];
@@ -471,6 +472,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         $this->data['customsDetails']['sendersCustomsReference'] = $sendersCustomsReference;
         $this->data['customsDetails']['addresseesCustomsReference'] = $addresseesCustomsReference;
         $this->data['customsDetails']['MRN'] = $masterReferenceNumber;
+        $this->data['customsDetails']['currency'] = $currency;
 
         return $this;
     }
@@ -727,13 +729,14 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
         if (isset($this->data['customsDetails'])) {
             $customsDetails = $this->data['customsDetails'];
+            $currency = $customsDetails['currency'] ?? 'EUR';
 
             $exportItems = [];
             foreach ($customsDetails['items'] as $itemData) {
                 $exportItem = new CustomsItem(
                     $itemData['description'],
                     $itemData['qty'],
-                    new MonetaryValue('EUR', $itemData['value']),
+                    new MonetaryValue($currency, $itemData['value']),
                     new Weight('kg', $itemData['weight'])
                 );
                 $exportItem->setCountryOfOrigin($itemData['countryOfOrigin']);
@@ -743,7 +746,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
             $customs = new Customs($exportItems, $customsDetails['exportType']);
             $customs->setExportDescription($customsDetails['exportTypeDescription']);
-            $customs->setPostalCharges(new MonetaryValue('EUR', $customsDetails['additionalFee']));
+            $customs->setPostalCharges(new MonetaryValue($currency, $customsDetails['additionalFee']));
             $customs->setShippingConditions($customsDetails['termsOfTrade']);
             $customs->setInvoiceNo($customsDetails['invoiceNumber']);
             $customs->setPermitNo($customsDetails['permitNumber']);
