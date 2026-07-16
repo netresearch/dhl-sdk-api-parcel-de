@@ -125,6 +125,7 @@ class ArrayPath
     final public const PATH_EXPORT_TYPE = 'customs/exportType';
     final public const PATH_EXPORT_PLACE = 'customs/officeOfOrigin';
     final public const PATH_EXPORT_FEE = 'customs/postalCharges/value';
+    final public const PATH_EXPORT_CURRENCY = 'customs/postalCharges/currency';
     final public const PATH_EXPORT_DESCRIPTION = 'customs/exportDescription';
     final public const PATH_EXPORT_INCOTERMS = 'customs/shippingConditions';
     final public const PATH_EXPORT_INVOICE_NO = 'customs/invoiceNo';
@@ -135,12 +136,14 @@ class ArrayPath
     final public const PATH_EXPORT_ITEM1_DESC = 'customs/items/0/itemDescription';
     final public const PATH_EXPORT_ITEM1_WEIGHT = 'customs/items/0/itemWeight/value';
     final public const PATH_EXPORT_ITEM1_VALUE = 'customs/items/0/itemValue/value';
+    final public const PATH_EXPORT_ITEM1_CURRENCY = 'customs/items/0/itemValue/currency';
     final public const PATH_EXPORT_ITEM1_HSCODE = 'customs/items/0/hsCode';
     final public const PATH_EXPORT_ITEM1_ORIGIN = 'customs/items/0/countryOfOrigin';
     final public const PATH_EXPORT_ITEM2_QTY = 'customs/items/1/packagedQuantity';
     final public const PATH_EXPORT_ITEM2_DESC = 'customs/items/1/itemDescription';
     final public const PATH_EXPORT_ITEM2_WEIGHT = 'customs/items/1/itemWeight/value';
     final public const PATH_EXPORT_ITEM2_VALUE = 'customs/items/1/itemValue/value';
+    final public const PATH_EXPORT_ITEM2_CURRENCY = 'customs/items/1/itemValue/currency';
     final public const PATH_EXPORT_ITEM2_HSCODE = 'customs/items/1/hsCode';
     final public const PATH_EXPORT_ITEM2_ORIGIN = 'customs/items/1/countryOfOrigin';
 
@@ -281,6 +284,7 @@ class ArrayPath
             'exportType' => self::PATH_EXPORT_TYPE,
             'placeOfCommital' => self::PATH_EXPORT_PLACE,
             'additionalFee' => self::PATH_EXPORT_FEE,
+            'currency' => self::PATH_EXPORT_CURRENCY,
             'exportTypeDescription' => self::PATH_EXPORT_DESCRIPTION,
             'termsOfTrade' => self::PATH_EXPORT_INCOTERMS,
             'invoiceNumber' => self::PATH_EXPORT_INVOICE_NO,
@@ -291,12 +295,14 @@ class ArrayPath
             'exportItem1Desc' => self::PATH_EXPORT_ITEM1_DESC,
             'exportItem1Weight' => self::PATH_EXPORT_ITEM1_WEIGHT,
             'exportItem1Value' => self::PATH_EXPORT_ITEM1_VALUE,
+            'exportItem1Currency' => self::PATH_EXPORT_ITEM1_CURRENCY,
             'exportItem1HsCode' => self::PATH_EXPORT_ITEM1_HSCODE,
             'exportItem1Origin' => self::PATH_EXPORT_ITEM1_ORIGIN,
             'exportItem2Qty' => self::PATH_EXPORT_ITEM2_QTY,
             'exportItem2Desc' => self::PATH_EXPORT_ITEM2_DESC,
             'exportItem2Weight' => self::PATH_EXPORT_ITEM2_WEIGHT,
             'exportItem2Value' => self::PATH_EXPORT_ITEM2_VALUE,
+            'exportItem2Currency' => self::PATH_EXPORT_ITEM2_CURRENCY,
             'exportItem2HsCode' => self::PATH_EXPORT_ITEM2_HSCODE,
             'exportItem2Origin' => self::PATH_EXPORT_ITEM2_ORIGIN,
 

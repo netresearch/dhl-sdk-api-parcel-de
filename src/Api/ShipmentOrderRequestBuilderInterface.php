@@ -400,6 +400,9 @@ interface ShipmentOrderRequestBuilderInterface
      * @see ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DAP
      * @see ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DDX
      * @see ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_CPT
+     *
+     * @param string $currency ISO 4217 three-character currency code, applied to
+     *                         postal charges and all export item values.
      */
     public function setCustomsDetails(
         string $exportType,
@@ -413,13 +416,14 @@ interface ShipmentOrderRequestBuilderInterface
         ?bool $electronicExportNotification = null,
         ?string $sendersCustomsReference = null,
         ?string $addresseesCustomsReference = null,
-        ?string $masterReferenceNumber = null
+        ?string $masterReferenceNumber = null,
+        string $currency = 'EUR'
     ): ShipmentOrderRequestBuilderInterface;
 
     /**
      * Add a package item's customs details (optional).
      *
-     * @param float $value Customs value in EUR
+     * @param float $value Customs value in the currency set via setCustomsDetails (default EUR)
      * @param float $weight Weight in kg, two digits after the decimal point
      */
     public function addExportItem(
