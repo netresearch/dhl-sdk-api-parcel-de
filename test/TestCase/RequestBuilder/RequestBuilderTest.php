@@ -18,6 +18,7 @@ use Dhl\Sdk\ParcelDe\Shipping\Service\ShipmentService\OrderConfiguration;
 use Dhl\Sdk\ParcelDe\Shipping\Test\Expectation\RequestTypeExpectation as Expectation;
 use Dhl\Sdk\ParcelDe\Shipping\Test\Provider\Http\Credentials\AuthenticationStorageProvider;
 use Dhl\Sdk\ParcelDe\Shipping\Test\Provider\RequestData\AbstractRequestData;
+use Dhl\Sdk\ParcelDe\Shipping\Test\Provider\RequestData\CrossBorderUsd;
 use Dhl\Sdk\ParcelDe\Shipping\Test\Provider\RequestData\CrossBorderWithServices;
 use Dhl\Sdk\ParcelDe\Shipping\Test\Provider\RequestData\Domestic;
 use Dhl\Sdk\ParcelDe\Shipping\Test\Provider\RequestData\DomesticWithServices;
@@ -62,6 +63,7 @@ class RequestBuilderTest extends TestCase
             new Locker(),
             new PostOffice(),
             new POBox(),
+            new CrossBorderUsd(),
         ];
 
         // response does not matter really, just to make it not fail
