@@ -15,7 +15,6 @@ use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Php84\Rector\FuncCall\AddEscapeArgumentRector;
 use Rector\Php84\Rector\FuncCall\RoundingModeEnumRector;
 use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
-use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\ValueObject\PhpVersion;
 
 return RectorConfig::configure()
@@ -23,7 +22,9 @@ return RectorConfig::configure()
         __DIR__ . '/src',
         __DIR__ . '/test',
     ])
-    ->withPhpVersion(PhpVersion::PHP_84)
+    // Target the lowest supported PHP version (composer: ^8.1) so Rector
+    // does not rewrite code to syntax newer than the library supports.
+    ->withPhpVersion(PhpVersion::PHP_81)
     ->withPreparedSets(
         deadCode: true,
         codeQuality: true,
@@ -32,9 +33,6 @@ return RectorConfig::configure()
         privatization: true
     )
     ->withPhpSets()
-    ->withSets([
-        PHPUnitSetList::PHPUNIT_100
-    ])
     ->withRules([
         ExplicitNullableParamTypeRector::class,
         AddEscapeArgumentRector::class,
