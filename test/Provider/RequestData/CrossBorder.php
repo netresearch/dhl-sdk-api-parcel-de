@@ -19,7 +19,7 @@ class CrossBorder extends AbstractRequestData
         return [
             'requestIndex' => $this->getRequestIndex(),
             'billingNumber' => '33333333335301',
-            'productCode' => 'V53PAK',
+            'productCode' => 'V53WPAK',
             'shipDate' => new \DateTime(date('Y-m-d', $tsShip)),
             'shipperCompany' => 'Netresearch GmbH & Co.KG',
             'shipperCountryCode' => 'DEU',

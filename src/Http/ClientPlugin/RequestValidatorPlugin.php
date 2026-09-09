@@ -35,7 +35,7 @@ final class RequestValidatorPlugin implements Plugin
     private function validateRequest(RequestInterface $request): void
     {
         $validator = (new ValidatorBuilder())
-            ->fromYamlFile(__DIR__ . '/parcel-de-shipping-v2.1.12.yaml')
+            ->fromYamlFile(__DIR__ . '/parcel-de-shipping-v2.1.14.yaml')
             ->getRequestValidator();
 
         try {
@@ -45,7 +45,7 @@ final class RequestValidatorPlugin implements Plugin
             $previous = $exception->getPrevious();
 
             // build more specific message
-            if ($previous instanceof SchemaMismatch && $previous->dataBreadCrumb()) {
+            if ($previous instanceof SchemaMismatch && $previous->dataBreadCrumb() instanceof \League\OpenAPIValidation\Schema\BreadCrumb) {
                 $data = $previous->data();
                 $chain = $previous->dataBreadCrumb()->buildChain();
 
