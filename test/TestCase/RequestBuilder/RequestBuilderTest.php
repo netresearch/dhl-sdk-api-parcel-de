@@ -194,6 +194,43 @@ class RequestBuilderTest extends TestCase
     }
 
     /**
+     * Assert that the return shipment's GoGreen Plus service is sent nested in the dhlRetoure object
+     * as required by API spec 2.1.13, not as a top-level service property.
+     *
+     * @throws ServiceException
+     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function returnShipmentGoGreenPlusIsNestedInDhlRetoure(): void
+    {
+        $httpClient = new Client();
+
+        $responseFactory = Psr17FactoryDiscovery::findResponseFactory();
+        $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
+        $responseBody = \file_get_contents(__DIR__ . '/../../Provider/_files/createshipment/singleShipmentSuccess.json');
+        $labelResponse = $responseFactory
+            ->createResponse(200, 'OK')
+            ->withBody($streamFactory->createStream($responseBody));
+        $httpClient->setDefaultResponse($labelResponse);
+
+        $serviceFactory = new HttpServiceFactory($httpClient, Client::class);
+        $service = $serviceFactory->createShipmentService(
+            AuthenticationStorageProvider::authSuccess(),
+            new NullLogger(),
+            true
+        );
+
+        $requestData = new DomesticWithServices();
+        $shipmentOrder = $requestData->createShipmentOrder(new ShipmentOrderRequestBuilder());
+        $service->createShipments([$shipmentOrder], new OrderConfiguration());
+
+        $requestBody = (string) $httpClient->getLastRequest()->getBody();
+        $shipment = \json_decode($requestBody, true, 512, JSON_THROW_ON_ERROR)['shipments'][0];
+
+        self::assertArrayNotHasKey('returnShipmentGoGreenPlus', $shipment['services']);
+        self::assertTrue($shipment['services']['dhlRetoure']['goGreenPlus'] ?? false);
+    }
+
+    /**
      * Assert that request builder throws exception if shipper data is missing.
      *
      * @throws RequestValidatorException

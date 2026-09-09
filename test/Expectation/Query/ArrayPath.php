@@ -170,7 +170,7 @@ class ArrayPath
     final public const PATH_SERVICE_IDENT_MINAGE = 'services/identCheck/minimumAge';
     final public const PATH_SERVICE_ROUTING = 'services/parcelOutletRouting';
     final public const PATH_SERVICE_GOGREEN_PLUS = 'services/goGreenPlus';
-    final public const PATH_SERVICE_RETURN_GOGREEN_PLUS = 'services/returnShipmentGoGreenPlus';
+    final public const PATH_SERVICE_RETURN_GOGREEN_PLUS = 'services/dhlRetoure/goGreenPlus';
 
     public static function get(string $attribute): string
     {
