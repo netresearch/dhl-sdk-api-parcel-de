@@ -12,6 +12,8 @@ class DhlRetoure implements \JsonSerializable
 {
     private ?string $refNo = null;
 
+    private ?bool $goGreenPlus = null;
+
     public function __construct(
         private readonly string $billingNumber,
         private readonly \JsonSerializable|ReturnAddress $returnAddress
@@ -21,6 +23,11 @@ class DhlRetoure implements \JsonSerializable
     public function setRefNo(?string $refNo): void
     {
         $this->refNo = $refNo;
+    }
+
+    public function setGoGreenPlus(?bool $goGreenPlus): void
+    {
+        $this->goGreenPlus = $goGreenPlus;
     }
 
     /**

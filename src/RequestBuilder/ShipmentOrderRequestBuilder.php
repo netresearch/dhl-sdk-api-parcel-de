@@ -456,9 +456,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         ?string $masterReferenceNumber = null,
         string $currency = 'EUR'
     ): ShipmentOrderRequestBuilderInterface {
-        if (!isset($this->data['customsDetails']['items'])) {
-            $this->data['customsDetails']['items'] = [];
-        }
+        $this->data['customsDetails']['items'] ??= [];
 
         $this->data['customsDetails']['exportType'] = $exportType;
         $this->data['customsDetails']['exportTypeDescription'] = $exportTypeDescription;
@@ -485,9 +483,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
         string $hsCode,
         string $countryOfOrigin
     ): ShipmentOrderRequestBuilderInterface {
-        if (!isset($this->data['customsDetails']['items'])) {
-            $this->data['customsDetails']['items'] = [];
-        }
+        $this->data['customsDetails']['items'] ??= [];
 
         $this->data['customsDetails']['items'][] = [
             'qty' => $qty,
@@ -647,7 +643,6 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
             $services->setBulkyGoods($this->data['services']['bulkyGoods'] ?? null);
             $services->setPostalDeliveryDutyPaid($this->data['services']['pddp'] ?? null);
             $services->setGoGreenPlus($this->data['services']['goGreenPlus'] ?? null);
-            $services->setReturnShipmentGoGreenPlus($this->data['services']['returnShipmentGoGreenPlus'] ?? null);
 
             match ($this->data['services']['endorsement'] ?? false) {
                 ShipmentOrderRequestBuilderInterface::ENDORSEMENT_TYPE_IMMEDIATE => $services->setEndorsement('RETURN'),
@@ -721,6 +716,7 @@ class ShipmentOrderRequestBuilder implements ShipmentOrderRequestBuilderInterfac
 
                 $return = new DhlRetoure($this->data['shipper']['returnBillingNumber'], $returnAddress);
                 $return->setRefNo($this->data['shipmentDetails']['returnReference'] ?? null);
+                $return->setGoGreenPlus($this->data['services']['returnShipmentGoGreenPlus'] ?? null);
                 $services->setDhlRetoure($return);
             }
 

@@ -144,11 +144,6 @@ class Services implements \JsonSerializable
      */
     private ?bool $goGreenPlus = null;
 
-    /**
-     * GoGreen Plus service for return shipments.
-     */
-    private ?bool $returnShipmentGoGreenPlus = null;
-
     public function setPreferredNeighbour(?string $preferredNeighbour): void
     {
         $this->preferredNeighbour = $preferredNeighbour;
@@ -242,11 +237,6 @@ class Services implements \JsonSerializable
     public function setGoGreenPlus(?bool $goGreenPlus): void
     {
         $this->goGreenPlus = $goGreenPlus;
-    }
-
-    public function setReturnShipmentGoGreenPlus(?bool $returnShipmentGoGreenPlus): void
-    {
-        $this->returnShipmentGoGreenPlus = $returnShipmentGoGreenPlus;
     }
 
     /**
